@@ -21,6 +21,5 @@ jobs:
         name: ponomnikita/resource-booking
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        dockerfile: ./src/ResourcesBooking.Host/Dockerfile
-        workdir: ./src/ResourcesBooking.Host
+        workdir: src/ResourcesBooking.Host
 
