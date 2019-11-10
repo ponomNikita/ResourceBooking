@@ -16,6 +16,7 @@ services:
     volumes:
       - ${HOME}/.aspnet/https:/https/
       - ./data:/app/data
+    restart: unless-stopped
 
   postgres:
     container_name: postgres
