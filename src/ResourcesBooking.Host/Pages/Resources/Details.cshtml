@@ -1,0 +1,108 @@
+﻿@page "{id:Guid}"
+@model DetailsModel
+@{
+    ViewData["Title"] = "Resources";
+}
+
+<script type="text/javascript">
+    
+    $(document).ready(function () {
+
+        @if(!Model.CanBook(Model.Resource))
+        {          
+            <text>
+                $("#bookBtn").attr('disabled','disabled');
+            </text>  
+        }
+
+        @if(!Model.CanRelease(Model.Resource))
+        {          
+            <text>
+                $("#releaseBtn").attr('disabled','disabled');
+            </text>  
+        }
+
+    });
+
+</script>
+
+<div class="container">
+
+    <div class="row">
+        
+        <div class="col">
+            <h4>@Model.Resource.Name</h4>
+
+            <dl class="dl-horizontal">
+                @if(@Model.Resource.BookedUntil.HasValue)
+                {
+                    <dt>
+                        @Html.DisplayNameFor(it => it.Resource.BookedUntil)
+                    </dt>
+                    <dd>
+                        @Html.Partial("Shared/Datetime", @Model.Resource.BookedUntil.Value)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(it => it.Resource.BookingReason)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(it => it.Resource.BookingReason)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(it => it.Resource.BookedBy)
+                    </dt>
+                    <dd>
+                        @Html.Partial("Shared/Avatar", @Model.Resource.BookedBy)
+                    </dd>
+                }
+            </dl>
+
+        </div>
+
+        <div class="col">
+            <div class="row">
+                <h4>Now in line: @Model.Resource.Queue.Count</h4>
+            </div>
+            <div class="row">
+                @foreach(var item in @Model.Resource.Queue.OrderBy(it => it.BookingDate))
+                {
+                    @Html.Partial("Shared/Avatar", item.BookedBy)
+                }
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-auto">
+            <form method="get">        
+                <button id="bookBtn" 
+                    type="submit" 
+                    asp-page="./Book" 
+                    asp-route-id="@Model.Resource.Id" 
+                    class="btn btn-primary">
+                    Book
+                </button>
+            </form>
+        </div>
+
+        <div class="col-auto">
+            <form method="post">
+                <button id="releaseBtn" 
+                    type="submit" 
+                    asp-page-handler="Release" 
+                    asp-route-id="@Model.Resource.Id" 
+                    class="btn btn-danger">
+                    Release
+                </button>
+            </form>
+        </div>
+
+        <div class="col-auto">
+            <a asp-page="./Index" class="btn btn-secondary">Back to List</a>
+        </div>
+
+    </div>
+
+</div>

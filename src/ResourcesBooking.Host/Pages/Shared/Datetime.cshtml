@@ -1,0 +1,17 @@
+﻿@model DateTimeOffset
+@{
+    var isToday = Model.Date == DateTime.Today;
+    var isTomorrow = Model.Date == DateTime.Today.AddDays(1);
+}
+
+@if (isToday) 
+{
+    <span>@Model.ToString("HH:mm")</span>
+}
+else if (isTomorrow) 
+{
+    <span>Tomorrow @Model.ToString("HH:mm")</span>   
+}
+else {
+    <span>@Model.ToString("MM dd yyyy HH:mm")</span>  
+}

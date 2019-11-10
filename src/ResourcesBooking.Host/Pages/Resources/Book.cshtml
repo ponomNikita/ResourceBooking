@@ -1,0 +1,74 @@
+﻿@page "{id:Guid}"
+@model BookModel
+@{
+    ViewData["Title"] = "BookResourceModel";
+}
+
+<script>
+    
+    function showPeriod(value) {
+
+        var days = Math.floor(value / 1440);
+        var hours = Math.floor((value % 1440) / 60);
+        var minutes = (value % 1440) % 60;
+
+        var period = "";
+
+        if (days !== 0) {
+            period += days + " days ";
+        }
+
+        if (hours !== 0) {
+            period += hours +  " hours ";
+        }
+
+        period += minutes + " minutes";
+
+        $("#periodValue").text(period);
+    }
+
+    $(document).ready(function () {
+        $("#bookingPeriodInMinutes").val(@Model.BookingRequest.BookingPeriodInMinutes);
+        showPeriod(@Model.BookingRequest.BookingPeriodInMinutes);
+    });
+
+</script>
+
+<div class="container">
+    <h1>Booking @Model.BookingRequest.ResourceName</h1>
+
+    <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        @Html.HiddenFor(it => it.BookingRequest.ResourceId)
+        @Html.HiddenFor(it => it.BookingRequest.ResourceName)
+        @Html.HiddenFor(it => it.BookingRequest.MinBookingPeriodInMinutes)
+        @Html.HiddenFor(it => it.BookingRequest.MaxBookingPeriodInMinutes)
+
+        <div class="form-group">
+            <label asp-for="BookingRequest.BookingPeriodInMinutes">Book for <span id="periodValue"></span></label>
+
+            <input asp-for="BookingRequest.BookingPeriodInMinutes"
+                type="range" 
+                id="bookingPeriodInMinutes"
+                min="@Model.BookingRequest.MinBookingPeriodInMinutes" 
+                max="@Model.BookingRequest.MaxBookingPeriodInMinutes" 
+                step="@Model.BookingRequest.MinBookingPeriodInMinutes" 
+                class="form-control-range"
+                oninput="showPeriod(this.value)" 
+                onchange="showPeriod(this.value)">
+
+            <span asp-validation-for="BookingRequest.BookingPeriodInMinutes" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="BookingRequest.BookingReason">Booking reason</label>
+            <input asp-for="BookingRequest.BookingReason" 
+                type="text" class="form-control" placeholder="Enter booking reason">
+            <span asp-validation-for="BookingRequest.BookingReason" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="@Model.ReturnUrl" class="btn btn-secondary">Cancel</a>  
+
+    </form>
+</div>

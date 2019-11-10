@@ -1,0 +1,23 @@
+﻿@model ResourcesBooking.Host.Models.User
+@{
+}
+<style>
+    .avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    }
+</style>
+<script type="text/javascript">
+    
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+
+</script>
+
+@if(@Model != null)
+{
+    <img src="@Model.AvatarUrl" class="avatar m-2" alt="avatar" data-toggle="tooltip" data-placement="top" title="@Model.Login">
+}

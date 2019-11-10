@@ -1,0 +1,24 @@
+using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace ResourcesBooking.Host.Models
+{
+    public class User 
+    {
+        [Display(Name = "Username")]
+        public string Login { get; set; }
+
+        public string AvatarUrl { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is User user &&
+                   Login == user.Login;
+        }
+
+        public override int GetHashCode()
+        {
+            return Login.GetHashCode();
+        }
+    }
+}
