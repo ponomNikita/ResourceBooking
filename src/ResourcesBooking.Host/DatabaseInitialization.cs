@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,8 +35,8 @@ namespace ResourcesBooking.Host
         }
 
         private async Task Seed(ResourcesContext context, CancellationToken token)
-        {            
-            var json = JObject.Parse(System.IO.File.ReadAllText("resources.json"));
+        {
+            var json = JObject.Parse(System.IO.File.ReadAllText("data/resources.json"));
             var groups = json.SelectToken("groups").Select(g => g.ToObject<Models.ResourcesGroup>()).ToList();
 
             var existingGroups = context.Groups.Include(it => it.Resources).ToList();
@@ -47,6 +46,7 @@ namespace ResourcesBooking.Host
             {
                 if (!existingGroups.Contains(group)) 
                 {
+                    Log.Information("Seeding data: add group {@group}", group.Name);
                     await context.AddAsync(group, token);
                 }
 
@@ -56,6 +56,7 @@ namespace ResourcesBooking.Host
                     {
                         if (!existingResources.Contains(resource)) 
                         {
+                            Log.Information("Seeding data: add resource {@resource}", resource.Name);
                             await context.AddAsync(resource, token);
                         }
                     }

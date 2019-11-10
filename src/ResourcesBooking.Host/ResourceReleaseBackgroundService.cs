@@ -25,10 +25,14 @@ namespace ResourcesBooking.Host
 
             while(!stoppingToken.IsCancellationRequested)
             {
+                await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
+
                 try
                 {
                     using(var scope = _scopeFactory.CreateScope())
                     {
+                        Log.Information("Check for expired reservation");
+                        
                         var context = scope.ServiceProvider.GetRequiredService<ResourcesContext>();
                         var bookingService = scope.ServiceProvider.GetService<IBookingService>();
 
@@ -50,8 +54,6 @@ namespace ResourcesBooking.Host
                     Log.Error(e, "Error in {@service}", nameof(ResourceReleaseBackgroundService));
                     throw;
                 }
-
-                await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
             }
         }
     }

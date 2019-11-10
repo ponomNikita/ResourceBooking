@@ -3,8 +3,7 @@ services:
 
   resources-booking.host:
     container_name: resources-booking.host
-    image: resources-booking:latest
-    build: ./src/ResourcesBooking.Host
+    image: ponomnikita/resource-booking:latest
     ports:
     - 5000:80
     - 5001:443
@@ -13,8 +12,10 @@ services:
       - ASPNETCORE_HTTPS_PORT=5001
       - ASPNETCORE_Kestrel__Certificates__Default__Password=P@ssw0rd
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ConnectionStrings__Resources=Host=postgres;Username=rb;Password=P@ssw0rd;Database=resources;Pooling=true;
     volumes:
       - ${HOME}/.aspnet/https:/https/
+      - ./data:/app/data
 
   postgres:
     container_name: postgres
