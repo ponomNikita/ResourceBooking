@@ -11,14 +11,16 @@ services:
       - ASPNETCORE_URLS=https://+;http://+
       - ASPNETCORE_HTTPS_PORT=5001
       - ASPNETCORE_Kestrel__Certificates__Default__Password=P@ssw0rd
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/certificate.pfx
       - ConnectionStrings__Resources=Host=postgres;Username=rb;Password=P@ssw0rd;Database=resources;Pooling=true;
       - gitlab__clientId=<clientId>
       - gitlab__clientSecret=<clientSecret>
+      - gitlab__authEndpoint=https://gitlab.com/oauth/authorize
+      - gitlab__tokenEndpoint=https://gitlab.com/oauth/token
+      - gitlab__userInfoEndpoint=https://gitlab.com/api/v4/user
     volumes:
-      - ${HOME}/.aspnet/https:/https/
+      - ./https:/https/
       - ./data:/app/data
-    restart: unless-stopped
 
   postgres:
     container_name: postgres

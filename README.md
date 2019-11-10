@@ -39,7 +39,7 @@ Resource management service.
 }
 
 ```
-4. Set actual `gitlab__clientId` and `gitlab__clientSecret` in `docker-compose.yml`
+4. Set actual `gitlab` parameters in `docker-compose.yml`
 4. Bash: `docker-compose up -d`
 
 

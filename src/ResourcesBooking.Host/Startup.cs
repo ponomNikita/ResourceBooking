@@ -54,9 +54,9 @@ namespace ResourcesBooking.Host
                     options.Scope.Add("read_user");
                     options.Scope.Add("openid");
 
-                    options.AuthorizationEndpoint = "https://gitlab.com/oauth/authorize";
-                    options.TokenEndpoint = "https://gitlab.com/oauth/token";
-                    options.UserInformationEndpoint = "https://gitlab.com/api/v4/user";
+                    options.AuthorizationEndpoint = Configuration["gitlab:authEndpoint"];
+                    options.TokenEndpoint = Configuration["gitlab:tokenEndpoint"];
+                    options.UserInformationEndpoint = Configuration["gitlab:userInfoEndpoint"];
 
                     options.SaveTokens = true;
 
