@@ -39,7 +39,16 @@ Resource management service.
 }
 
 ```
-4. Set actual `gitlab` parameters in `docker-compose.yml`
-4. Bash: `docker-compose up -d`
+4. Create folder for certificates `https` inside target
+5. Inside `https`:
+  a. Bash: `openssl req -new -x509 -newkey rsa:2048 -keyout <hostname>.key -out <hostname>.cer -days 365 -subj /CN=<hostname>`
+  b. Bash: `penssl pkcs12 -export -out certificate.pfx -inkey <hostname>.key -in <hostname>.cer`
+6. Set actual `gitlab` parameters in `docker-compose.yml`
+7. Bash: `docker-compose up -d`
 
+### Additional parameters
+
+You can add additional parameters to environment variables in docker-compose.yml:
+1. `booking__MaxBookingPeriodInMinutes` default 1440
+2. `booking__MinBookingPeriodInMinutes` default 20
 
