@@ -13,6 +13,8 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Password=P@ssw0rd
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
       - ConnectionStrings__Resources=Host=postgres;Username=rb;Password=P@ssw0rd;Database=resources;Pooling=true;
+      - gitlab__clientId=<clientId>
+      - gitlab__clientSecret=<clientSecret>
     volumes:
       - ${HOME}/.aspnet/https:/https/
       - ./data:/app/data
