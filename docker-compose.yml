@@ -5,11 +5,11 @@ services:
     container_name: resources-booking.host
     image: ponomnikita/resource-booking:latest
     ports:
-    - 5000:80
-    - 5001:443
+    - 80:80
+    - 443:443
     environment:
       - ASPNETCORE_URLS=https://+;http://+
-      - ASPNETCORE_HTTPS_PORT=5001
+      - ASPNETCORE_HTTPS_PORT=443
       - ASPNETCORE_Kestrel__Certificates__Default__Password=P@ssw0rd
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/certificate.pfx
       - ConnectionStrings__Resources=Host=postgres;Username=rb;Password=P@ssw0rd;Database=resources;Pooling=true;
