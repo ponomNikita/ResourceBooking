@@ -4,16 +4,19 @@ using ResourcesBooking.Host.Models;
 
 namespace ResourcesBooking.Host.Commands
 {
-    public class ReleaseResourceCommand : IRequest
+    public class ReleaseResourceCommand : IRequest<ReleaseResourceResult>
     {
-        public ReleaseResourceCommand(Guid resourceId, User bookedBy)
+        public ReleaseResourceCommand(Guid resourceId, User bookedBy, bool systemAction)
         {
             ResourceId = resourceId;
             BookedBy = bookedBy;
-        }
+            SystemAction = systemAction;
 
+        }
         public Guid ResourceId { get; }
 
         public User BookedBy { get; }
+
+        public bool SystemAction { get; }
     }
 }

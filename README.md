@@ -44,7 +44,8 @@ Resource management service.
   a. Bash: `openssl req -new -x509 -newkey rsa:2048 -keyout <hostname>.key -out <hostname>.cer -days 365 -subj /CN=<hostname>`
   b. Bash: `penssl pkcs12 -export -out certificate.pfx -inkey <hostname>.key -in <hostname>.cer`
 6. Set actual `gitlab` parameters in `docker-compose.yml`
-7. Bash: `docker-compose up -d`
+7. Set actual `notifications` parameters in `docker-compose.yml` (or remove mattermost section)
+8. Bash: `docker-compose up -d`
 
 ### Additional parameters
 

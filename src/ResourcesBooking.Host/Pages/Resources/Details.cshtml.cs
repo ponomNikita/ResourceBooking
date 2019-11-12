@@ -39,7 +39,7 @@ namespace ResourcesBooking.Host.Pages.Resources
         {
             var user = await _context.GetOrAdd(User);
 
-            await _mediator.Send(new ReleaseResourceCommand(id, user));
+            await _mediator.Send(new ReleaseResourceCommand(id, user, false));
 
             return Redirect(Request.Headers["Referer"].ToString());
         }

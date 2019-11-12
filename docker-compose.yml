@@ -18,6 +18,8 @@ services:
       - gitlab__authEndpoint=https://gitlab.com/oauth/authorize
       - gitlab__tokenEndpoint=https://gitlab.com/oauth/token
       - gitlab__userInfoEndpoint=https://gitlab.com/api/v4/user
+      - notifications__hostname=https://localhost
+      - notifications__mattermost__hook=https://mattermost/hooks/j785o5ppj7r1ib5wkf8wns4xaa
     volumes:
       - ./https:/https/
       - ./data:/app/data

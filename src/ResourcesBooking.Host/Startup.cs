@@ -3,6 +3,7 @@ using System.Net.Http.Headers;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text.Json;
+using Matterhook.NET.MatterhookClient;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -14,6 +15,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ResourcesBooking.Host.Options;
+using ResourcesBooking.Host.Services;
 using Serilog;
 
 namespace ResourcesBooking.Host
@@ -90,6 +93,17 @@ namespace ResourcesBooking.Host
             services.AddMediatR(Assembly.GetAssembly(GetType()));
 
             services.AddSingleton(Configuration.GetSection("booking")?.Get<BookingOptions>() ?? new BookingOptions());
+            
+            var notificationOptions = Configuration.GetSection("notifications")
+                ?.Get<NotificationOptions>()
+                ?? new NotificationOptions();
+
+            services.AddSingleton(notificationOptions);
+
+            if (notificationOptions.Mattermost != null)
+            {
+                services.AddScoped<INotificationService, MattermostNotificationService>();
+            }
 
             services.AddHostedService<DatabaseInitialization>();
             services.AddHostedService<ResourceReleaseBackgroundService>();

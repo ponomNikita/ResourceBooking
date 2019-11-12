@@ -46,7 +46,7 @@ namespace ResourcesBooking.Host
 
                         foreach (var resource in resourcesToRelease)
                         {
-                            await mediator.Send(new ReleaseResourceCommand(resource.Id, resource.BookedBy));
+                            await mediator.Send(new ReleaseResourceCommand(resource.Id, resource.BookedBy, true));
                         }
                     }
                 }

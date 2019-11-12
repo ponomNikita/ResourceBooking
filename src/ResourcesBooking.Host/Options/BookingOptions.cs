@@ -1,4 +1,4 @@
-namespace ResourcesBooking.Host
+namespace ResourcesBooking.Host.Options
 {
     public class BookingOptions
     {

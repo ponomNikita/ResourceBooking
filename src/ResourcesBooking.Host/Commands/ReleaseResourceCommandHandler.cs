@@ -6,7 +6,7 @@ using Serilog;
 
 namespace ResourcesBooking.Host.Commands
 {
-    public class ReleaseResourceCommandHandler : IRequestHandler<ReleaseResourceCommand, Unit>
+    public class ReleaseResourceCommandHandler : IRequestHandler<ReleaseResourceCommand, ReleaseResourceResult>
     {
         private readonly ResourcesContext _context;
 
@@ -15,7 +15,7 @@ namespace ResourcesBooking.Host.Commands
             _context = context;
         }
 
-        public async Task<Unit> Handle(ReleaseResourceCommand command, CancellationToken cancellationToken)
+        public async Task<ReleaseResourceResult> Handle(ReleaseResourceCommand command, CancellationToken cancellationToken)
         {
             var resource = await _context.Resources
                 .WithDetails()
@@ -27,7 +27,7 @@ namespace ResourcesBooking.Host.Commands
 
             Log.Information("{@user} released resource {@resource}", command.BookedBy.Login, resource.Name);
 
-            return Unit.Value;
+            return new ReleaseResourceResult(resource.Name, resource.Id, command.BookedBy, resource.BookedBy);
         }
     }
 }
