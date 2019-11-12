@@ -2,6 +2,8 @@
 @model DetailsModel
 @{
     ViewData["Title"] = "Resources";
+
+    var allBookedUntil = @Model.GetGeneralBookedUntil();
 }
 
 <script type="text/javascript">
@@ -37,12 +39,6 @@
                 @if(@Model.Resource.BookedUntil.HasValue)
                 {
                     <dt>
-                        @Html.DisplayNameFor(it => it.Resource.BookedUntil)
-                    </dt>
-                    <dd>
-                        @Html.Partial("Shared/Datetime", @Model.Resource.BookedUntil.Value)
-                    </dd>
-                    <dt>
                         @Html.DisplayNameFor(it => it.Resource.BookingReason)
                     </dt>
                     <dd>
@@ -54,6 +50,22 @@
                     <dd>
                         @Html.Partial("Shared/Avatar", @Model.Resource.BookedBy)
                     </dd>
+                    <dt>
+                        @Html.DisplayNameFor(it => it.Resource.BookedUntil)
+                    </dt>
+                    <dd>
+                        @Html.Partial("Shared/Datetime", @Model.Resource.BookedUntil.Value)
+                    </dd>
+
+                    if (allBookedUntil.HasValue)
+                    {
+                        <dt>
+                            Booked by all users until
+                        </dt>
+                        <dd>
+                            @Html.Partial("Shared/Datetime", allBookedUntil.Value)
+                        </dd>
+                    }
                 }
             </dl>
 

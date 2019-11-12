@@ -58,5 +58,21 @@ namespace ResourcesBooking.Host.Pages.Resources
         }
 
         public Resource Resource { get; private set; }
+
+        public DateTimeOffset? GetGeneralBookedUntil()
+        {
+            var bookedUntil = Resource.BookedUntil;
+
+            if (bookedUntil.HasValue && 
+                Resource.Queue != null)
+            {
+                foreach (var item in Resource.Queue)
+                {
+                    bookedUntil = bookedUntil.Value.AddMinutes(item.DurationInMinutes);
+                }
+            }
+
+            return bookedUntil;
+        }
     }
 }
