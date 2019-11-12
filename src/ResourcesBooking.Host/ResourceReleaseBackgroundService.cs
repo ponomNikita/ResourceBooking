@@ -2,10 +2,11 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ResourcesBooking.Host.Services;
+using ResourcesBooking.Host.Commands;
 using Serilog;
 
 namespace ResourcesBooking.Host
@@ -34,7 +35,7 @@ namespace ResourcesBooking.Host
                         Log.Information("Check for expired reservation");
                         
                         var context = scope.ServiceProvider.GetRequiredService<ResourcesContext>();
-                        var bookingService = scope.ServiceProvider.GetService<IBookingService>();
+                        var mediator = scope.ServiceProvider.GetService<IMediator>();
 
                         var now = DateTimeOffset.UtcNow;
 
@@ -45,7 +46,7 @@ namespace ResourcesBooking.Host
 
                         foreach (var resource in resourcesToRelease)
                         {
-                            await bookingService.Release(new ReleaseModel(resource.Id, resource.BookedBy));
+                            await mediator.Send(new ReleaseResourceCommand(resource.Id, resource.BookedBy));
                         }
                     }
                 }

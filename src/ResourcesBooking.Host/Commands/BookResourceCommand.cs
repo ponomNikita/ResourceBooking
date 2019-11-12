@@ -1,11 +1,12 @@
 using System;
+using MediatR;
 using ResourcesBooking.Host.Models;
 
-namespace ResourcesBooking.Host.Services
+namespace ResourcesBooking.Host.Commands
 {
-    public class BookingModel
+    public class BookResourceCommand : IRequest
     {
-        public BookingModel(Guid resourceId, User bookedBy, string bookingReason, long bookingDurationInMinutes)
+        public BookResourceCommand(Guid resourceId, User bookedBy, string bookingReason, long bookingDurationInMinutes)
         {
             ResourceId = resourceId;
             BookedBy = bookedBy;

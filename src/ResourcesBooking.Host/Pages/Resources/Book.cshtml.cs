@@ -1,23 +1,24 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using ResourcesBooking.Host.Services;
+using ResourcesBooking.Host.Commands;
 
 namespace ResourcesBooking.Host.Pages.Resources
 {
     public class BookModel : PageModel
     {
         private readonly ResourcesContext _context;
-        private readonly IBookingService _service;
+        private readonly IMediator _mediator;
         private readonly BookingOptions _bookingOptions;
 
-        public BookModel(ResourcesContext context, IBookingService service, BookingOptions bookingOptions)
+        public BookModel(ResourcesContext context, IMediator mediator, BookingOptions bookingOptions)
         {
             _context = context;
-            _service = service;
+            _mediator = mediator;
             _bookingOptions = bookingOptions;
         }
 
@@ -61,7 +62,7 @@ namespace ResourcesBooking.Host.Pages.Resources
 
             var user = await _context.GetOrAdd(User);
 
-            await _service.Book(new BookingModel(
+            await _mediator.Send(new BookResourceCommand(
                 BookingRequest.ResourceId, 
                 user,
                 BookingRequest.BookingReason,

@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using ResourcesBooking.Host.Commands;
 using ResourcesBooking.Host.Models;
-using ResourcesBooking.Host.Services;
 
 namespace ResourcesBooking.Host.Pages.Resources
 {
     public class DetailsModel : PageModel
     {
         private readonly ResourcesContext _context;
-        private readonly IBookingService _service;
+        private readonly IMediator _mediator;
 
-        public DetailsModel(ResourcesContext context, IBookingService service)
+        public DetailsModel(ResourcesContext context, IMediator mediator)
         {
             _context = context;
-            _service = service;
+            _mediator = mediator;
         }
 
         public async Task<IActionResult> OnGetAsync(Guid id)
@@ -38,7 +39,7 @@ namespace ResourcesBooking.Host.Pages.Resources
         {
             var user = await _context.GetOrAdd(User);
 
-            await _service.Release(new ReleaseModel(id, user));
+            await _mediator.Send(new ReleaseResourceCommand(id, user));
 
             return Redirect(Request.Headers["Referer"].ToString());
         }

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using ResourcesBooking.Host.Models;
 
 namespace ResourcesBooking.Host.Pages.Resources

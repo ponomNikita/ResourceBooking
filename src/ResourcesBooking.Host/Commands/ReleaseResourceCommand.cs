@@ -1,11 +1,12 @@
 using System;
+using MediatR;
 using ResourcesBooking.Host.Models;
 
-namespace ResourcesBooking.Host.Services
+namespace ResourcesBooking.Host.Commands
 {
-    public class ReleaseModel
+    public class ReleaseResourceCommand : IRequest
     {
-        public ReleaseModel(Guid resourceId, User bookedBy)
+        public ReleaseResourceCommand(Guid resourceId, User bookedBy)
         {
             ResourceId = resourceId;
             BookedBy = bookedBy;
@@ -14,6 +15,5 @@ namespace ResourcesBooking.Host.Services
         public Guid ResourceId { get; }
 
         public User BookedBy { get; }
-
     }
 }
