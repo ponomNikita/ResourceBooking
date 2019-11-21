@@ -6,28 +6,6 @@
     var allBookedUntil = @Model.GetGeneralBookedUntil();
 }
 
-<script type="text/javascript">
-    
-    $(document).ready(function () {
-
-        @if(!Model.CanBook(Model.Resource))
-        {          
-            <text>
-                $("#bookBtn").attr('disabled','disabled');
-            </text>  
-        }
-
-        @if(!Model.CanRelease(Model.Resource))
-        {          
-            <text>
-                $("#releaseBtn").attr('disabled','disabled');
-            </text>  
-        }
-
-    });
-
-</script>
-
 <div class="container">
 
     <div class="row">
@@ -87,29 +65,49 @@
 
     <div class="row">
 
-        <div class="col-auto">
-            <form method="get">        
-                <button id="bookBtn" 
-                    type="submit" 
-                    asp-page="./Book" 
-                    asp-route-id="@Model.Resource.Id" 
-                    class="btn btn-primary">
-                    Book
-                </button>
-            </form>
-        </div>
+        @if(Model.CanBook(Model.Resource))
+        {
+            <div class="col-auto">
+                <form method="get">        
+                    <button id="bookBtn" 
+                        type="submit" 
+                        asp-page="./Book" 
+                        asp-route-id="@Model.Resource.Id" 
+                        class="btn btn-primary">
+                        Book
+                    </button>
+                </form>
+            </div>
+        }
+        else @if(Model.CanExtend(Model.Resource))
+        {
+            <div class="col-auto">
+                <form method="post">
+                    <button id="extendBtn" 
+                        type="submit" 
+                        asp-page-handler="Extend" 
+                        asp-route-id="@Model.Resource.Id" 
+                        class="btn btn-primary">
+                        Extend (@Model.Options.MinBookingPeriodInMinutes minutes)
+                    </button>
+                </form>
+            </div>
+        }
 
-        <div class="col-auto">
-            <form method="post">
-                <button id="releaseBtn" 
-                    type="submit" 
-                    asp-page-handler="Release" 
-                    asp-route-id="@Model.Resource.Id" 
-                    class="btn btn-danger">
-                    Release
-                </button>
-            </form>
-        </div>
+        @if(Model.CanRelease(Model.Resource))
+        {
+            <div class="col-auto">
+                <form method="post">
+                    <button id="releaseBtn" 
+                        type="submit" 
+                        asp-page-handler="Release" 
+                        asp-route-id="@Model.Resource.Id" 
+                        class="btn btn-danger">
+                        Release
+                    </button>
+                </form>
+            </div>
+        }
 
         <div class="col-auto">
             <a asp-page="./Index" class="btn btn-secondary">Back to List</a>

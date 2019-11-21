@@ -43,6 +43,16 @@ namespace ResourcesBooking.Host.Models
             }
         }
 
+        public void Extend(long extendTimeInMinutes)
+        {
+            if (!BookedUntil.HasValue)
+            {
+                throw new Exception("Could not extend resource, which had not been booked");
+            }
+
+            BookedUntil = BookedUntil.Value.AddMinutes(extendTimeInMinutes);
+        }
+
         public void Release(User user)
         {
            var queueItem = Queue.FirstOrDefault(it => it.BookedBy.Equals(user));
