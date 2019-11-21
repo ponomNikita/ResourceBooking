@@ -25,9 +25,9 @@ namespace ResourcesBooking.Host.Commands
             await _context.SaveChangesAsync();
 
             Log.Information("{@user} extended resource {@resource} for {@extendTime} minutes", 
-                resource.BookedBy.Login, 
-                command.ExtendTimeInMinutes, 
-                resource.Name);
+                resource.BookedBy.Login,  
+                resource.Name,                 
+                command.ExtendTimeInMinutes);
 
             return new ExtendResourceResult();
         }

@@ -23,12 +23,15 @@ namespace ResourcesBooking.Host
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IWebHostEnvironment environment, IConfiguration configuration)
         {
             Configuration = configuration;
+            CurrentEnvironment = environment;
         }
 
         public IConfiguration Configuration { get; }
+
+        public IWebHostEnvironment CurrentEnvironment { get; }     
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -103,6 +106,11 @@ namespace ResourcesBooking.Host
             if (notificationOptions.Mattermost != null)
             {
                 services.AddScoped<INotificationService, MattermostNotificationService>();
+            }
+            
+            if (CurrentEnvironment.IsDevelopment())
+            {
+                services.AddScoped<INotificationService, DevelopmentNotificationService>();
             }
 
             services.AddHostedService<DatabaseInitialization>();

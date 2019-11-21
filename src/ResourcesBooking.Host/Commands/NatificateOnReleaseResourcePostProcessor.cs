@@ -21,17 +21,17 @@ namespace ResourcesBooking.Host.Commands
 
         public async Task Process(ReleaseResourceCommand command, ReleaseResourceResult response, CancellationToken cancellationToken)
         {
+            var resourceDisplayName = $"[{response.ResourceName}]({_options.Hostname}/Resources/Details/{response.ResourceId})";
+
             if (response.WhoBooked != null)
             {
                 await Notify(response.WhoBooked, 
-                    $"You've booked {response.ResourceName} just now", cancellationToken);
+                    $"You've booked {resourceDisplayName} just now", cancellationToken);
             }
 
             if (command.SystemAction && response.WhoReleased != null)
             {
-                await Notify(response.WhoReleased, 
-                    $"[{response.ResourceName}]({_options.Hostname}/Resources/Details/{response.ResourceId})" + 
-                    $" has been released just now", cancellationToken);
+                await Notify(response.WhoReleased, $"{resourceDisplayName} has been released just now", cancellationToken);
             }
         }
 
