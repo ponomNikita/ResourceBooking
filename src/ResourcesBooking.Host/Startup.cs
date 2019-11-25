@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ResourcesBooking.Host.BackgroundTasks;
 using ResourcesBooking.Host.Options;
 using ResourcesBooking.Host.Services;
 using Serilog;
@@ -56,14 +57,16 @@ namespace ResourcesBooking.Host
             {
                 services.AddScoped<INotificationService, MattermostNotificationService>();
             }
-            
-            if (CurrentEnvironment.IsDevelopment())
+            else if (CurrentEnvironment.IsDevelopment())
             {
                 services.AddScoped<INotificationService, DevelopmentNotificationService>();
             }
 
+            services.AddScoped<IBackgroundTask, NotifyUsersAboutEndingOfReservationBackgroundTask>();
+            services.AddScoped<IBackgroundTask, ReleaseExpiredReservationsBackgroundTask>();
+
             services.AddHostedService<DatabaseInitialization>();
-            services.AddHostedService<ResourceReleaseBackgroundService>();
+            services.AddHostedService<BackgroundTasksExecutor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

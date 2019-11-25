@@ -19,7 +19,7 @@ namespace ResourcesBooking.Host.Services
 
             var filename = $"{NotificationsFolder}/Notifications.{user.Login}.txt";
 
-            await File.AppendAllLinesAsync(filename, new string[] { $"[{DateTimeOffset.UtcNow}] {payload}" }, cancellationToken);
+            await File.AppendAllLinesAsync(filename, new string[] { $"[{DateTimeOffset.Now}] {payload}" }, cancellationToken);
         }
     }
 }

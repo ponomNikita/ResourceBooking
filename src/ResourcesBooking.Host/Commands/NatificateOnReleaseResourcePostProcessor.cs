@@ -1,8 +1,6 @@
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR.Pipeline;
-using ResourcesBooking.Host.Models;
 using ResourcesBooking.Host.Options;
 using ResourcesBooking.Host.Services;
 
@@ -10,12 +8,12 @@ namespace ResourcesBooking.Host.Commands
 {
     public class NatificateOnReleaseResourcePostProcessor : IRequestPostProcessor<ReleaseResourceCommand, ReleaseResourceResult>
     {
-        private readonly IEnumerable<INotificationService> _notificators;
+        private readonly INotificationService _notificationService;
         private readonly NotificationOptions _options;
 
-        public NatificateOnReleaseResourcePostProcessor(IEnumerable<INotificationService> notificators, NotificationOptions options)
+        public NatificateOnReleaseResourcePostProcessor(INotificationService notificator, NotificationOptions options)
         {
-            _notificators = notificators;
+            _notificationService = notificator;
             _options = options;
         }
 
@@ -25,21 +23,14 @@ namespace ResourcesBooking.Host.Commands
 
             if (response.WhoBooked != null)
             {
-                await Notify(response.WhoBooked, 
+                await _notificationService.Notify(response.WhoBooked, 
                     $"You've booked {resourceDisplayName} just now", cancellationToken);
             }
 
             if (command.SystemAction && response.WhoReleased != null)
             {
-                await Notify(response.WhoReleased, $"{resourceDisplayName} has been released just now", cancellationToken);
-            }
-        }
-
-        private async Task Notify(User user, string payload, CancellationToken cancellationToken)
-        {
-            foreach (var notifier in _notificators)
-            {
-                await notifier.Notify(user, payload, cancellationToken);
+                await _notificationService.Notify(response.WhoReleased, 
+                    $"{resourceDisplayName} has been released just now", cancellationToken);
             }
         }
     }
