@@ -1,6 +1,14 @@
-# ResourceBooking
+# Resource Booking
 
-Resource management service.
+Resource management service. 
+
+Features:
+1. You can add resources via data/resources.json
+2. You can book resource for some time
+3. You can release resource
+4. You can extend reservation time for resource
+5. You can get in line for resource
+6. You can set up notifications (now only in mattermost)
 
 ## Getting started
 
@@ -52,4 +60,7 @@ Resource management service.
 You can add additional parameters to environment variables in docker-compose.yml:
 1. `booking__MaxBookingPeriodInMinutes` default 1440
 2. `booking__MinBookingPeriodInMinutes` default 20
+3. `notifications__hostname` is used for resource display name in notifications, default "localhost"
+4. `notifications__notifyBeforeEndingOfReservationInMinutes` default 10
+5. `notifications__mattermost__hook` is used for notifications to mattermost
 
