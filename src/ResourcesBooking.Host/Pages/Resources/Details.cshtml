@@ -11,9 +11,26 @@
     <div class="row">
         
         <div class="col">
-            <h4>@Model.Resource.Name</h4>
+            <span>
+                <h4>
+                    @Model.Resource.Name
+                    <a asp-page="./Edit" asp-route-id="@Model.Resource.Id">                        
+                        <i class="fas fa-cog"></i>
+                    </a>
+                </h4>
+            </span>
 
             <dl class="dl-horizontal">
+                @if(!string.IsNullOrWhiteSpace(@Model.Resource.Description))
+                {                    
+                    <dt>
+                        @Html.DisplayNameFor(it => it.Resource.Description)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(it => it.Resource.Description)
+                    </dd>
+                }
+
                 @if(@Model.Resource.BookedUntil.HasValue)
                 {
                     <dt>

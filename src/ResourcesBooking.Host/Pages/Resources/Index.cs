@@ -17,5 +17,22 @@ namespace ResourcesBooking.Host.Pages.Resources
         }
 
         public List<ResourcesGroup> Groups { get; private set; }
+
+        public string GetShortDescription(Resource resource)
+        {
+            if (resource?.Description == null)
+            {
+                return string.Empty;
+            }
+
+            if(resource.Description.Length <= 20)
+            {
+                return resource.Description;
+            }
+            else
+            {
+                return $"{resource.Description.Substring(0, 20)}...";
+            }
+        }
     }
 }

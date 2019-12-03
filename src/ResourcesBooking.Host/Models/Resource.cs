@@ -12,6 +12,9 @@ namespace ResourcesBooking.Host.Models
         [Display(Name = "Resource name")]
         public string Name { get; set; }
 
+        [Display(Name = "Description")]
+        public string Description { get; set; }
+
         [Display(Name = "Booked until")]
         [DataType(DataType.DateTime)]
         public DateTimeOffset? BookedUntil { get; set; }
@@ -84,6 +87,12 @@ namespace ResourcesBooking.Host.Models
             {
                 throw new ArgumentException($"User {user.Login} is not allowd to release resource because {user.Login} did not book it");
             }
+        }
+
+        public void Update(string name, string description)
+        {
+            Name = name;
+            Description = description;
         }
 
         public DateTimeOffset GetGeneralBookedUntil()

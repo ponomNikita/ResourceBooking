@@ -1,0 +1,32 @@
+﻿@page "{id:Guid}"
+@model EditModel
+@{
+    ViewData["Title"] = "BookResourceModel";
+}
+
+<div class="container">
+    <h4>Resource settings</h4>
+
+    <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        @Html.HiddenFor(it => it.Command.Id)
+
+        <div class="form-group">
+            <label asp-for="Command.Name">Name</label>
+            <input asp-for="Command.Name" type="text" class="form-control">
+            <span asp-validation-for="Command.Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Command.Description">Description</label>
+            <input asp-for="Command.Description" type="text" class="form-control">
+            <span asp-validation-for="Command.Description" class="text-danger"></span>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="@Model.ReturnUrl" class="btn btn-secondary">Cancel</a>  
+
+    </form>
+</div>

@@ -9,6 +9,7 @@ Features:
 4. You can extend reservation time for resource
 5. You can get in line for resource
 6. You can set up notifications (now only in mattermost)
+7. You can edit resources
 
 ## Getting started
 

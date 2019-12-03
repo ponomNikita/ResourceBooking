@@ -64,6 +64,9 @@ namespace ResourcesBooking.Host.Migrations
                     b.Property<string>("BookingReason")
                         .HasColumnType("text");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
                     b.Property<string>("Discriminator")
                         .IsRequired()
                         .HasColumnType("text");
