@@ -16,4 +16,10 @@
     <PackageReference Include="Serilog.AspNetCore" Version="3.1.0" />
   </ItemGroup>
 
+  <ItemGroup> 
+    <Content Include="wwwroot\node_modules\**"> 
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory> 
+    </Content> 
+  </ItemGroup>
+
 </Project>
