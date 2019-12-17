@@ -13,6 +13,7 @@ namespace ResourcesBooking.Host
         public DbSet<Resource> Resources { get; set; }
         public DbSet<ResourcesGroup> Groups { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<KeyValue> Settings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -40,6 +41,9 @@ namespace ResourcesBooking.Host
             builder.Entity<User>()
                 .Property(it => it.AvatarUrl)
                 .IsRequired();
+            
+            builder.Entity<KeyValue>().HasKey(it => it.Key);
+            builder.Entity<KeyValue>().ToTable("Settings");
 
             base.OnModelCreating(builder);
         }

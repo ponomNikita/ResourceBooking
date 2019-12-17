@@ -45,5 +45,29 @@ namespace ResourcesBooking.Host
             
             return user;
         }
+
+        public static async Task AddOrUpdateSetting(this ResourcesContext context, string key, string value)
+        {
+            var settingValue = await context.Settings.FirstOrDefaultAsync(it => it.Key == key);
+
+            if (settingValue == null)
+            {
+                await context.Settings.AddAsync(new KeyValue 
+                {
+                    Key = key,
+                    Value = value
+                });
+            }
+            else
+            {
+                settingValue.Value = value;
+            }
+        }
+
+        public static async Task<string> GetSetting(this ResourcesContext context, string key)
+        {
+            var setting = await context.Settings.FirstOrDefaultAsync(it => it.Key == key);
+            return setting?.Value;
+        }
     }
 }

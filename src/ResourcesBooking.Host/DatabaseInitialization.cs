@@ -12,6 +12,7 @@ namespace ResourcesBooking.Host
 {
     public class DatabaseInitialization : BackgroundService
     {
+        private const string DataSeededSettingKey = "DataSeeded";
         private readonly IServiceScopeFactory _scopeFactory;
 
         public DatabaseInitialization(IServiceScopeFactory scopeFactory)
@@ -29,7 +30,10 @@ namespace ResourcesBooking.Host
             
                 await context.Database.MigrateAsync(stoppingToken);
 
-                await Seed(context, stoppingToken);
+                if ((await context.GetSetting(DataSeededSettingKey)) != "true")
+                {
+                    await Seed(context, stoppingToken);
+                }
             }
 
             Log.Information("Finished migrating database");
@@ -67,6 +71,7 @@ namespace ResourcesBooking.Host
                     }
                 }
 
+                await context.AddOrUpdateSetting(DataSeededSettingKey, "true");
                 await context.SaveChangesAsync(token);
             }
         }
