@@ -1,0 +1,52 @@
+﻿@page "{id:Guid?}"
+@model AddModel
+@{
+    ViewData["Title"] = "BookResourceModel";
+}
+
+<div class="container">
+    @if (Model.Command.GroupId.HasValue)
+    {
+        <h4>New resource</h4>
+    }
+    else
+    {
+        <h4>New group</h4>
+    }
+
+    <form id="addResource" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        @Html.HiddenFor(it => it.Command.GroupId)
+
+        <div class="form-group">
+            <label asp-for="Command.Name">Name</label>
+            <input asp-for="Command.Name" type="text" class="form-control">
+            <span asp-validation-for="Command.Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Command.Description">Description</label>
+            <input asp-for="Command.Description" type="text" class="form-control">
+            <span asp-validation-for="Command.Description" class="text-danger"></span>
+        </div>
+        
+    </form>
+        
+    <div class="row">
+        <div class="col-auto">
+            <button type="submit" form="addResource" class="btn btn-primary">
+                <i class="fas fa-check"></i>&nbsp 
+                Add
+            </button>
+        </div> 
+        
+        <div class="col-auto">
+            <a href="@Model.ReturnUrl" class="btn btn-secondary">
+                <i class="fas fa-ban"></i>&nbsp
+                Cancel
+            </a>
+        </div>           
+    </div>
+</div>

@@ -69,7 +69,7 @@
         @if(Model.IsGroup)
         {
             <div class="col-auto">
-                <a href="@Model.ReturnUrl" class="btn btn-success">
+                <a asp-page="./Add" asp-route-id="@Model.Command.Id" class="btn btn-success">
                     <i class="far fa-plus-square"></i>&nbsp
                     Add resource
                 </a>
