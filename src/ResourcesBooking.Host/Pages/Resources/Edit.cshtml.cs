@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ResourcesBooking.Host.Commands;
+using ResourcesBooking.Host.Models;
 
 namespace ResourcesBooking.Host.Pages.Resources
 {
@@ -23,21 +24,17 @@ namespace ResourcesBooking.Host.Pages.Resources
         public EditResourceCommand Command { get; set; }
 
         public string ReturnUrl { get; set; }
+
+        public bool IsGroup { get; set; }
         
         public async Task<IActionResult> OnGetAsync(Guid id)
         {
-            var resource = await _context.Resources
-                .WithDetails()
-                .FirstOrDefaultAsync(it => it.Id == id);
+            var resource = await OnGet(id);
 
             if (resource == null) 
             {
                 return NotFound();
             }
-
-            Command = new EditResourceCommand(resource);
-
-            ReturnUrl = Request.Headers["Referer"].ToString();
 
             return Page();
         }
@@ -46,7 +43,7 @@ namespace ResourcesBooking.Host.Pages.Resources
         {
             if (!ModelState.IsValid)
             {
-                ReturnUrl = returnUrl;
+                await OnGet(Command.Id, returnUrl);
                 return Page();
             }
             
@@ -54,6 +51,28 @@ namespace ResourcesBooking.Host.Pages.Resources
 
             returnUrl = returnUrl ?? Url.Content("~/");
             return Redirect(returnUrl);
+        }
+
+        public async Task<IActionResult> OnPostRemoveAsync(Guid id, string returnUrl = null)
+        {
+            await _mediator.Send(new RemoveResourceCommand(id));
+
+            return Redirect(Url.Content("~/"));
+        }
+
+        private async Task<Resource> OnGet(Guid id, string returnUrl = null)
+        {
+            var resource = await _context.Resources
+                .WithDetails()
+                .FirstOrDefaultAsync(it => it.Id == id);
+
+            Command = new EditResourceCommand(resource);
+
+            ReturnUrl = returnUrl ?? Request.Headers["Referer"].ToString();
+
+            IsGroup = resource is ResourcesGroup;
+
+            return resource;
         }
     }
 }

@@ -4,10 +4,32 @@
     ViewData["Title"] = "BookResourceModel";
 }
 
+<script type="text/javascript">
+
+    function confirmDelete() {
+        if (confirm("You will remove resource. Are you sure you want to do it?"))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    $(document).ready(function() {
+
+        $("#removeResource").submit(function() {
+            return confirmDelete();
+        });
+
+    });
+</script>
+
 <div class="container">
     <h4>Resource settings</h4>
 
-    <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+    <form id="editResource" asp-route-returnUrl="@Model.ReturnUrl" method="post">
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -25,8 +47,40 @@
             <span asp-validation-for="Command.Description" class="text-danger"></span>
         </div>
         
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <a href="@Model.ReturnUrl" class="btn btn-secondary">Cancel</a>  
-
     </form>
+        
+    <div class="row">
+        <div class="col-auto">
+            <button type="submit" form="editResource" class="btn btn-primary">
+                <i class="fas fa-check"></i>&nbsp 
+                Submit
+            </button>
+        </div>
+        
+        <div class="col-auto">
+            <form id="removeResource" asp-route-returnUrl="@Model.ReturnUrl" asp-route-handler="Remove" method="post">
+                <button type="submit" form="removeResource" class="btn btn-danger">
+                    <i class="fas fa-trash-alt"></i>&nbsp 
+                    Remove
+                </button>
+            </form>
+        </div>
+        
+        @if(Model.IsGroup)
+        {
+            <div class="col-auto">
+                <a href="@Model.ReturnUrl" class="btn btn-success">
+                    <i class="far fa-plus-square"></i>&nbsp
+                    Add resource
+                </a>
+            </div>
+        } 
+        
+        <div class="col-auto">
+            <a href="@Model.ReturnUrl" class="btn btn-secondary">
+                <i class="fas fa-ban"></i>&nbsp
+                Cancel
+            </a>
+        </div>           
+    </div>
 </div>

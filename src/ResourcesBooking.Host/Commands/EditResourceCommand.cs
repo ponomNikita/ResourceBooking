@@ -7,7 +7,6 @@ namespace ResourcesBooking.Host.Commands
 {
     public class EditResourceCommand : IRequest
     {
-
         public EditResourceCommand(Resource resource)
         {
             this.Id = resource.Id;
@@ -23,7 +22,6 @@ namespace ResourcesBooking.Host.Commands
         [Required]
         public string Name { get; set; }
 
-        [Required]
         public string Description { get; set; }
     }
 }

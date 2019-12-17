@@ -28,6 +28,9 @@
             <tr>
                 <th scope="col">
                     @group.Name
+                    <a asp-page="./Edit" asp-route-id="@group.Id">                        
+                        <i class="fas fa-cog"></i>
+                    </a>
                 </th>
                 <th></th>
                 <th scope="col">@group.BookedBy?.Login</th>
