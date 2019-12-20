@@ -6,12 +6,12 @@ using ResourcesBooking.Host.Services;
 
 namespace ResourcesBooking.Host.Commands
 {
-    public class NatificateOnReleaseResourcePostProcessor : IRequestPostProcessor<ReleaseResourceCommand, ReleaseResourceResult>
+    public class NotificateOnReleaseResourcePostProcessor : IRequestPostProcessor<ReleaseResourceCommand, ReleaseResourceResult>
     {
         private readonly INotificationService _notificationService;
         private readonly NotificationOptions _options;
 
-        public NatificateOnReleaseResourcePostProcessor(INotificationService notificator, NotificationOptions options)
+        public NotificateOnReleaseResourcePostProcessor(INotificationService notificator, NotificationOptions options)
         {
             _notificationService = notificator;
             _options = options;
