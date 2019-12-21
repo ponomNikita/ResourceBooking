@@ -26,7 +26,7 @@ namespace ResourcesBooking.Host.Models
             return new User
             {
                 Login = "system",
-                AvatarUrl = "~/brand.png"
+                AvatarUrl = "/brand.png"
             };
         }
     }

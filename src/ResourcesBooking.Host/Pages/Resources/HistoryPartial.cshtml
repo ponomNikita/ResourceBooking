@@ -4,7 +4,11 @@
 {    
     <tr>
         <td scope="col-3">@item.Date.ToString("dd.MM.yyyy HH:mm")</td>
-        <td scope="col-3">@item.UserLogin</td>
+        <td scope="col-3">
+            <img src="@item.User.AvatarUrl" class="avatar avatar-mini m-2" alt="avatar">
+            &nbsp
+            @item.UserLogin
+        </td>
         <td scope="col-6">@item.Description</td>
     </tr>
 }
