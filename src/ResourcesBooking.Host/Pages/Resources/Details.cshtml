@@ -10,7 +10,14 @@
 
 <style>
     .history {
-        height: 40vh;
+        height: 60vh;
+        overflow-y: auto; 
+    }
+
+    .history thead th { 
+        position: sticky; 
+        top: 0; 
+        background: #fff;
     }
 </style>
 
@@ -45,11 +52,11 @@
 
         loadHistoryPage();
 
-        $("#history").scroll(function() {
+        $(".history").scroll(function() {
 
-            var history = $("#history");
+            var history = $(".history");
 
-            if (history.scrollTop() > history[0].scrollHeight - history.height() - 10 && !lock) {
+            if (history.scrollTop() > history[0].scrollHeight - history.height() - 50 && !lock) {
                 lock = true;
                 loadHistoryPage();
             }
@@ -67,7 +74,7 @@
                 <div class="col">
                     
                     <span>
-                        <h4>
+                        <h4 class="mt-4 mb-4">
                             @Model.Resource.Name
                             <a asp-page="./Edit" asp-route-id="@Model.Resource.Id">                        
                                 <i class="fas fa-cog"></i>
@@ -195,7 +202,20 @@
                 <div class="card-body">
                     <h4 class="card-title">History</h4>
 
-                    <div id="history" class="history container overflow-auto card-text"></div>
+                    <div class="history">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col-3">Date</th>
+                                    <th scope="col-3">User</th>
+                                    <th scope="col-6">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history">
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>        
 
