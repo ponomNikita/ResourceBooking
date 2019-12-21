@@ -37,6 +37,22 @@ namespace ResourcesBooking.Host.Pages.Resources
             return Page();
         }
 
+        public async Task<PartialViewResult> OnGetHistoryPartialAsync(Guid id, int limit, int offset)
+        {
+            var history = await _context.History.Where(it => it.ResourceId == id)
+                .OrderByDescending(it => it.Date)
+                .Include(it => it.User)
+                .Skip(offset)
+                .Take(limit)
+                .AsNoTracking()
+                .ToListAsync();
+
+            return Partial("HistoryPartial", new HistoryPartialModel 
+            {
+                History = history
+            });
+        }
+
         public async Task<IActionResult> OnPostReleaseAsync(Guid id)
         {
             var user = await _context.GetOrAdd(User);

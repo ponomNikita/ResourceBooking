@@ -1,0 +1,10 @@
+﻿@model HistoryPartialModel
+
+@foreach (var item in Model.History)
+{
+    <div class="row">
+        <div class="col-3">@item.Date.ToString("dd.MM.yyyy HH:mm")</div>
+        <div class="col-3">@item.UserLogin</div>
+        <div class="col-6">@item.Description</div>
+    </div>
+}

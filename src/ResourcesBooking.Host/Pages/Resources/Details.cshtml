@@ -4,132 +4,207 @@
     ViewData["Title"] = "Resources";
 
     var allBookedUntil = @Model.GetGeneralBookedUntil();
+
+    var resourceId = @Model.Resource.Id;
 }
 
-<div class="container">
+<style>
+    .history {
+        height: 40vh;
+    }
+</style>
+
+<script type="text/javascript">
+
+    var historyPartialUrl = '/Resources/Details/@resourceId?handler=HistoryPartial';
+    var limit = 20;
+    var offset = 0;
+    var hasMoreItems = true;
+    var lock = false;
+
+    $(document).ready(function () {
+
+        function loadHistoryPage() {
+
+            var url = historyPartialUrl + '&limit=' + limit + '&offset=' + offset;
+
+            if (hasMoreItems) {
+                $.get(url, function(data) {
+
+                    if (data.trim() == '') {
+                        hasMoreItems = false;
+                    }
+
+                    $('#history').append(data);
+                    offset = offset + limit;
+
+                    lock = false;
+                });
+            }
+        }
+
+        loadHistoryPage();
+
+        $("#history").scroll(function() {
+
+            var history = $("#history");
+
+            if (history.scrollTop() > history[0].scrollHeight - history.height() - 10 && !lock) {
+                lock = true;
+                loadHistoryPage();
+            }
+        });
+    })
+
+</script>
+
+<div class="container-fluid">
 
     <div class="row">
         
-        <div class="col">
-            <span>
-                <h4>
-                    @Model.Resource.Name
-                    <a asp-page="./Edit" asp-route-id="@Model.Resource.Id">                        
-                        <i class="fas fa-cog"></i>
-                    </a>
-                </h4>
-            </span>
+        <div class="col-5">
+            <div class="row">
+                <div class="col">
+                    
+                    <span>
+                        <h4>
+                            @Model.Resource.Name
+                            <a asp-page="./Edit" asp-route-id="@Model.Resource.Id">                        
+                                <i class="fas fa-cog"></i>
+                            </a>
+                        </h4>
+                    </span>
 
-            <dl class="dl-horizontal">
-                @if(!string.IsNullOrWhiteSpace(@Model.Resource.Description))
-                {                    
-                    <dt>
-                        @Html.DisplayNameFor(it => it.Resource.Description)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(it => it.Resource.Description)
-                    </dd>
-                }
+                    <dl class="dl-horizontal">
+                        @if(!string.IsNullOrWhiteSpace(@Model.Resource.Description))
+                        {                    
+                            <dt>
+                                @Html.DisplayNameFor(it => it.Resource.Description)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(it => it.Resource.Description)
+                            </dd>
+                        }
 
-                @if(@Model.Resource.BookedUntil.HasValue)
+                        @if(@Model.Resource.BookedUntil.HasValue)
+                        {
+                            <dt>
+                                @Html.DisplayNameFor(it => it.Resource.BookingReason)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(it => it.Resource.BookingReason)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(it => it.Resource.BookedBy)
+                            </dt>
+                            <dd>
+                                @Html.Partial("Shared/Avatar", @Model.Resource.BookedBy)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(it => it.Resource.BookedUntil)
+                            </dt>
+                            <dd>
+                                @Html.Partial("Shared/Datetime", @Model.Resource.BookedUntil.Value)
+                            </dd>
+
+                            if (allBookedUntil.HasValue)
+                            {
+                                <dt>
+                                    Booked by all users until
+                                </dt>
+                                <dd>
+                                    @Html.Partial("Shared/Datetime", allBookedUntil.Value)
+                                </dd>
+                            }
+                        }
+                    </dl>
+
+                </div>
+            </div>
+
+            <div class="row">
+
+                @if(Model.CanBook(Model.Resource))
                 {
-                    <dt>
-                        @Html.DisplayNameFor(it => it.Resource.BookingReason)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(it => it.Resource.BookingReason)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(it => it.Resource.BookedBy)
-                    </dt>
-                    <dd>
-                        @Html.Partial("Shared/Avatar", @Model.Resource.BookedBy)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(it => it.Resource.BookedUntil)
-                    </dt>
-                    <dd>
-                        @Html.Partial("Shared/Datetime", @Model.Resource.BookedUntil.Value)
-                    </dd>
-
-                    if (allBookedUntil.HasValue)
-                    {
-                        <dt>
-                            Booked by all users until
-                        </dt>
-                        <dd>
-                            @Html.Partial("Shared/Datetime", allBookedUntil.Value)
-                        </dd>
-                    }
+                    <div class="col-auto">
+                        <form method="get">        
+                            <button id="bookBtn" 
+                                type="submit" 
+                                asp-page="./Book" 
+                                asp-route-id="@Model.Resource.Id" 
+                                class="btn btn-primary">
+                                Book
+                            </button>
+                        </form>
+                    </div>
                 }
-            </dl>
+                else @if(Model.CanExtend(Model.Resource))
+                {
+                    <div class="col-auto">
+                        <form method="post">
+                            <button id="extendBtn" 
+                                type="submit" 
+                                asp-page-handler="Extend" 
+                                asp-route-id="@Model.Resource.Id" 
+                                class="btn btn-primary">
+                                Extend (@Model.Options.MinBookingPeriodInMinutes minutes)
+                            </button>
+                        </form>
+                    </div>
+                }
+
+                @if(Model.CanRelease(Model.Resource))
+                {
+                    <div class="col-auto">
+                        <form method="post">
+                            <button id="releaseBtn" 
+                                type="submit" 
+                                asp-page-handler="Release" 
+                                asp-route-id="@Model.Resource.Id" 
+                                class="btn btn-danger">
+                                Release
+                            </button>
+                        </form>
+                    </div>
+                }
+
+                <div class="col-auto">
+                    <a asp-page="./Index" class="btn btn-secondary">Back to List</a>
+                </div>
+
+            </div>
 
         </div>
 
-        <div class="col">
-            <div class="row">
-                <h4>Now in line: @Model.Resource.Queue.Count</h4>
+        <div class="col-7">            
+
+            <div class="card card-default mb-2">            
+                <div class="card-body">
+                    <h4 class="card-title">Now in line: @Model.Resource.Queue.Count</h4>
+
+                    <div class="card-text">
+                        @foreach(var item in @Model.Resource.Queue.OrderBy(it => it.BookingDate))
+                        {
+                            @Html.Partial("Shared/Avatar", item.BookedBy)
+                        }
+                    </div>
+                </div>
             </div>
-            <div class="row">
-                @foreach(var item in @Model.Resource.Queue.OrderBy(it => it.BookingDate))
-                {
-                    @Html.Partial("Shared/Avatar", item.BookedBy)
-                }
-            </div>
+
+            <div class="card card-default">            
+                <div class="card-body">
+                    <h4 class="card-title">History</h4>
+
+                    <div id="history" class="history container overflow-auto card-text"></div>
+                </div>
+            </div>        
+
         </div>
 
     </div>
 
     <div class="row">
-
-        @if(Model.CanBook(Model.Resource))
-        {
-            <div class="col-auto">
-                <form method="get">        
-                    <button id="bookBtn" 
-                        type="submit" 
-                        asp-page="./Book" 
-                        asp-route-id="@Model.Resource.Id" 
-                        class="btn btn-primary">
-                        Book
-                    </button>
-                </form>
-            </div>
-        }
-        else @if(Model.CanExtend(Model.Resource))
-        {
-            <div class="col-auto">
-                <form method="post">
-                    <button id="extendBtn" 
-                        type="submit" 
-                        asp-page-handler="Extend" 
-                        asp-route-id="@Model.Resource.Id" 
-                        class="btn btn-primary">
-                        Extend (@Model.Options.MinBookingPeriodInMinutes minutes)
-                    </button>
-                </form>
-            </div>
-        }
-
-        @if(Model.CanRelease(Model.Resource))
-        {
-            <div class="col-auto">
-                <form method="post">
-                    <button id="releaseBtn" 
-                        type="submit" 
-                        asp-page-handler="Release" 
-                        asp-route-id="@Model.Resource.Id" 
-                        class="btn btn-danger">
-                        Release
-                    </button>
-                </form>
-            </div>
-        }
-
-        <div class="col-auto">
-            <a asp-page="./Index" class="btn btn-secondary">Back to List</a>
-        </div>
-
+        
     </div>
 
 </div>

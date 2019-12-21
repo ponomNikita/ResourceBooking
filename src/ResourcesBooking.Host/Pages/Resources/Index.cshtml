@@ -4,60 +4,62 @@
     ViewData["Title"] = "Resources";
 }
 
-<table class="table">
-            
-    <thead class="thead-dark">
-        <tr>
-            <th scope="col">
-                Name
-            </th>
-            <th scope="col">
-                Description
-            </th>
-            <th scope="col">
-                Booked by
-            </th>
-            <th scope="col">
-                Reason
-            </th>
-        </tr>
-    </thead>
-    @foreach(var group in Model.Groups)
-    {
-        <thead class="thead-light">
+<div class="container">
+    <table class="table">
+                
+        <thead class="thead-dark">
             <tr>
                 <th scope="col">
-                    @group.Name
-                    <a asp-page="./Edit" asp-route-id="@group.Id">                        
-                        <i class="fas fa-cog"></i>
-                    </a>
+                    Name
                 </th>
-                <th></th>
-                <th scope="col">@group.BookedBy?.Login</th>
-                <th scope="col">@group.BookingReason</th>
+                <th scope="col">
+                    Description
+                </th>
+                <th scope="col">
+                    Booked by
+                </th>
+                <th scope="col">
+                    Reason
+                </th>
             </tr>
         </thead>
-        
-        <tbody>
-            @foreach(var resource in @group.Resources.OrderBy(it => it.Name))
-            {
+        @foreach(var group in Model.Groups)
+        {
+            <thead class="thead-light">
                 <tr>
-                    <td scope="row">
-                        <a asp-page="./Details" asp-route-id="@resource.Id">@resource.Name</a>
-                    </td>
-                    <td>
-                        @Model.GetShortDescription(resource)
-                    </td>
-                    <td>@resource.BookedBy?.Login</td>
-                    <td>@resource.BookingReason</td>
+                    <th scope="col">
+                        @group.Name
+                        <a asp-page="./Edit" asp-route-id="@group.Id">                        
+                            <i class="fas fa-cog"></i>
+                        </a>
+                    </th>
+                    <th></th>
+                    <th scope="col">@group.BookedBy?.Login</th>
+                    <th scope="col">@group.BookingReason</th>
                 </tr>
-            }
-        </tbody>
+            </thead>
+            
+            <tbody>
+                @foreach(var resource in @group.Resources.OrderBy(it => it.Name))
+                {
+                    <tr>
+                        <td scope="row">
+                            <a asp-page="./Details" asp-route-id="@resource.Id">@resource.Name</a>
+                        </td>
+                        <td>
+                            @Model.GetShortDescription(resource)
+                        </td>
+                        <td>@resource.BookedBy?.Login</td>
+                        <td>@resource.BookingReason</td>
+                    </tr>
+                }
+            </tbody>
 
-        <br />
-    }
-</table>
-<a asp-page="./Add" class="btn btn-success">
-    <i class="far fa-plus-square"></i>&nbsp
-    Add group
-</a>
+            <br />
+        }
+    </table>
+    <a asp-page="./Add" class="btn btn-success">
+        <i class="far fa-plus-square"></i>&nbsp
+        Add group
+    </a>
+</div>
