@@ -6,7 +6,7 @@ using Serilog;
 
 namespace ResourcesBooking.Host.Commands
 {
-    public class BookResourceCommandHandler : IRequestHandler<BookResourceCommand, Unit>
+    public class BookResourceCommandHandler : IRequestHandler<BookResourceCommand, BookResourceResult>
     {
         private readonly ResourcesContext _context;
 
@@ -15,7 +15,7 @@ namespace ResourcesBooking.Host.Commands
             _context = context;
         }
 
-        public async Task<Unit> Handle(BookResourceCommand command, CancellationToken cancellationToken)
+        public async Task<BookResourceResult> Handle(BookResourceCommand command, CancellationToken cancellationToken)
         {
             var resource = await _context.Resources
                 .WithDetails()
@@ -28,7 +28,12 @@ namespace ResourcesBooking.Host.Commands
                 
             Log.Information("{@user} booked resource {@resource}", command.BookedBy.Login, resource.Name);
 
-            return Unit.Value;
+            var isUserInLine = !resource.BookedBy.Login.Equals(command.BookedBy.Login);
+
+            return new BookResourceResult
+            {
+                IsUserInLine = isUserInLine
+            };
         }
     }
 }

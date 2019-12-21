@@ -132,6 +132,7 @@ namespace ResourcesBooking.Host
             }
 
             _container.Register<ResourcesContext>(Lifestyle.Scoped);
+            _container.Register<IHttpContextAccessor, HttpContextAccessor>(Lifestyle.Scoped);
 
             _container.Collection.Register(typeof(IBackgroundTask), new []
             {
@@ -165,6 +166,7 @@ namespace ResourcesBooking.Host
                 // order is important
                 typeof(ReleaseResourcePostProcessor),
                 typeof(BookResourcePostProcessor),
+                typeof(EditResourcePostProcessor),
                 typeof(UnitOfWorkPipelineBehavior<,>),
                 typeof(NotificateOnReleaseResourcePostProcessor)
             });

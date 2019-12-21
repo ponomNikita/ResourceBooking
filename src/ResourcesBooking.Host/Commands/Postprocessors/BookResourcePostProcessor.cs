@@ -7,7 +7,7 @@ using ResourcesBooking.Host.Models;
 
 namespace ResourcesBooking.Host.Commands.Postprocessors
 {
-    public class BookResourcePostProcessor : IRequestPostProcessor<BookResourceCommand, Unit>
+    public class BookResourcePostProcessor : IRequestPostProcessor<BookResourceCommand, BookResourceResult>
     {
         private readonly ResourcesContext _context;
 
@@ -16,10 +16,14 @@ namespace ResourcesBooking.Host.Commands.Postprocessors
             _context = context;
         }
 
-        public async Task Process(BookResourceCommand command, Unit response, CancellationToken cancellationToken)
+        public async Task Process(BookResourceCommand command, BookResourceResult response, CancellationToken cancellationToken)
         {
+            var description = response.IsUserInLine 
+                ? "User got in line."
+                : $"Resource was booked. Reason: \"{command.BookingReason}\".";
+
             var history = HistoryEntry.Create(Guid.NewGuid(), 
-                $"Resource booked. Reason: \"{command.BookingReason}\"",
+                description,
                 command.BookedBy.Login,
                 command.ResourceId,
                 DateTimeOffset.UtcNow);

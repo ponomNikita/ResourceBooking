@@ -25,7 +25,7 @@ namespace ResourcesBooking.Host.Commands
 
             Log.Information("{@user} released resource {@resource}", command.BookedBy.Login, resource.Name);
 
-            return new ReleaseResourceResult(resource.Name, resource.Id, command.BookedBy, resource.BookedBy);
+            return new ReleaseResourceResult(resource.Name, resource.Id, command.BookedBy, resource.BookedBy, resource.BookingReason);
         }
     }
 }

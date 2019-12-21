@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Linq;
+using ResourcesBooking.Host.Models;
 using Serilog;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
@@ -15,6 +16,7 @@ namespace ResourcesBooking.Host
     public class DatabaseInitialization : BackgroundService
     {
         private const string DataSeededSettingKey = "DataSeeded";
+        private const string SystemUserSettingKey = "SystemUserSeeded";
         private readonly Container _container;
 
         public DatabaseInitialization(Container container)
@@ -36,9 +38,21 @@ namespace ResourcesBooking.Host
                 {
                     await Seed(context, stoppingToken);
                 }
+
+                if ((await context.GetSetting(SystemUserSettingKey)) != "true")
+                {
+                    await AddSystemUser(context, stoppingToken);
+                }
             }
 
             Log.Information("Finished migrating database");
+        }
+
+        private async Task AddSystemUser(ResourcesContext context, CancellationToken token)
+        {
+            await context.Users.AddAsync(User.GetSystemUser(), token);
+            await context.AddOrUpdateSetting(SystemUserSettingKey, "true");
+            await context.SaveChangesAsync(token);
         }
 
         private async Task Seed(ResourcesContext context, CancellationToken token)

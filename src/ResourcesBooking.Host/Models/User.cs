@@ -20,5 +20,14 @@ namespace ResourcesBooking.Host.Models
         {
             return Login.GetHashCode();
         }
+
+        public static User GetSystemUser()
+        {
+            return new User
+            {
+                Login = "system",
+                AvatarUrl = "~/brand.png"
+            };
+        }
     }
 }

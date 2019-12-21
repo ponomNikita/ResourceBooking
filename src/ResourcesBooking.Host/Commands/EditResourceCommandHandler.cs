@@ -22,8 +22,6 @@ namespace ResourcesBooking.Host.Commands
                 .FirstOrDefaultAsync(it => it.Id == command.Id);
 
             resource.Update(command.Name, command.Description);
-                
-            await _context.SaveChangesAsync();
 
             Log.Information("Resource {@resource} was updated", resource.Name);
 

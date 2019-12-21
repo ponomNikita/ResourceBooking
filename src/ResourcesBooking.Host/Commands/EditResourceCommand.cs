@@ -5,7 +5,7 @@ using ResourcesBooking.Host.Models;
 
 namespace ResourcesBooking.Host.Commands
 {
-    public class EditResourceCommand : IRequest
+    public class EditResourceCommand : IRequest, IRequireSaveChanges
     {
         public EditResourceCommand(Resource resource)
         {

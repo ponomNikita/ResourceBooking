@@ -17,13 +17,26 @@ namespace ResourcesBooking.Host.Commands.Postprocessors
 
         public async Task Process(ReleaseResourceCommand command, ReleaseResourceResult response, CancellationToken cancellationToken)
         {
-            var history = HistoryEntry.Create(Guid.NewGuid(), 
-                "Resource released.",
-                command.BookedBy.Login,
+            var userLogin = command.SystemAction ? User.GetSystemUser().Login : response.WhoReleased.Login;
+
+            var releasedHistory = HistoryEntry.Create(Guid.NewGuid(), 
+                "Resource was released.",
+                userLogin,
                 command.ResourceId,
                 DateTimeOffset.UtcNow);
 
-            await _context.History.AddAsync(history);
+            await _context.History.AddAsync(releasedHistory);
+
+            if (response.WhoBooked != null)
+            {
+                var bookedHistory = HistoryEntry.Create(Guid.NewGuid(), 
+                    $"Resource was booked. Reason: \"{response.BookingReason}\".",
+                    response.WhoBooked.Login,
+                    command.ResourceId,
+                    DateTimeOffset.UtcNow);
+
+                await _context.History.AddAsync(bookedHistory);
+            }
         }
     }
 }
