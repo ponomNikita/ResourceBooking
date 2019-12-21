@@ -23,8 +23,6 @@ namespace ResourcesBooking.Host.Commands
 
             resource.Release(command.BookedBy);
 
-            await _context.SaveChangesAsync();
-
             Log.Information("{@user} released resource {@resource}", command.BookedBy.Login, resource.Name);
 
             return new ReleaseResourceResult(resource.Name, resource.Id, command.BookedBy, resource.BookedBy);

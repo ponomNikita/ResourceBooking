@@ -7,26 +7,28 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Linq;
 using Serilog;
+using SimpleInjector;
+using SimpleInjector.Lifestyles;
 
 namespace ResourcesBooking.Host
 {
     public class DatabaseInitialization : BackgroundService
     {
         private const string DataSeededSettingKey = "DataSeeded";
-        private readonly IServiceScopeFactory _scopeFactory;
+        private readonly Container _container;
 
-        public DatabaseInitialization(IServiceScopeFactory scopeFactory)
+        public DatabaseInitialization(Container container)
         {
-            _scopeFactory = scopeFactory;
+            _container = container;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             Log.Information("Migrating database");
 
-            using(var scope = _scopeFactory.CreateScope())
+            using(AsyncScopedLifestyle.BeginScope(_container))
             {
-                var context = scope.ServiceProvider.GetRequiredService<ResourcesContext>();
+                var context = _container.GetService<ResourcesContext>();
             
                 await context.Database.MigrateAsync(stoppingToken);
 

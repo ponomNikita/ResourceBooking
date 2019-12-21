@@ -4,7 +4,7 @@ using ResourcesBooking.Host.Models;
 
 namespace ResourcesBooking.Host.Commands
 {
-    public class ReleaseResourceCommand : IRequest<ReleaseResourceResult>
+    public class ReleaseResourceCommand : IRequest<ReleaseResourceResult>, IRequireSaveChanges
     {
         public ReleaseResourceCommand(Guid resourceId, User bookedBy, bool systemAction)
         {

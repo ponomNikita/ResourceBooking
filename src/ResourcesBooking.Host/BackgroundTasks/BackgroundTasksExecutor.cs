@@ -4,17 +4,19 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using SimpleInjector;
+using SimpleInjector.Lifestyles;
 
 namespace ResourcesBooking.Host.BackgroundTasks
 {
     public class BackgroundTasksExecutor : BackgroundService
     {
         private const int BackgroundServicePeriodInSeconds = 60;
-        private readonly IServiceScopeFactory _scopeFactory;
+        private readonly Container _container;
 
-        public BackgroundTasksExecutor(IServiceScopeFactory scopeFactory)
+        public BackgroundTasksExecutor(Container container)
         {
-            _scopeFactory = scopeFactory;
+            _container = container;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -22,11 +24,10 @@ namespace ResourcesBooking.Host.BackgroundTasks
             Log.Information("Start {@service}", nameof(BackgroundTasksExecutor));
 
             while(!stoppingToken.IsCancellationRequested)
-            {
-                
-                using(var scope = _scopeFactory.CreateScope())
+            {                
+                using(AsyncScopedLifestyle.BeginScope(_container))
                 {                        
-                    var backgroundTasks = scope.ServiceProvider.GetServices<IBackgroundTask>();
+                    var backgroundTasks = _container.GetServices<IBackgroundTask>();
 
                     foreach (var task in backgroundTasks)
                     {

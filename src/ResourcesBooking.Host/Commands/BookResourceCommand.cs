@@ -4,7 +4,7 @@ using ResourcesBooking.Host.Models;
 
 namespace ResourcesBooking.Host.Commands
 {
-    public class BookResourceCommand : IRequest
+    public class BookResourceCommand : IRequest, IRequireSaveChanges
     {
         public BookResourceCommand(Guid resourceId, User bookedBy, string bookingReason, long bookingDurationInMinutes)
         {

@@ -4,7 +4,7 @@ using MediatR.Pipeline;
 using ResourcesBooking.Host.Options;
 using ResourcesBooking.Host.Services;
 
-namespace ResourcesBooking.Host.Commands
+namespace ResourcesBooking.Host.Commands.Postprocessors
 {
     public class NotificateOnReleaseResourcePostProcessor : IRequestPostProcessor<ReleaseResourceCommand, ReleaseResourceResult>
     {

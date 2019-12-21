@@ -51,7 +51,8 @@ namespace ResourcesBooking.Host
             
             builder.Entity<HistoryEntry>()
                 .HasOne(it => it.User)
-                .WithMany();
+                .WithMany()
+                .HasForeignKey(it => it.UserLogin);
 
             builder.Entity<HistoryEntry>()
                 .Property(it => it.Description)

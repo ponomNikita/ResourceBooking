@@ -26,8 +26,6 @@ namespace ResourcesBooking.Host.Commands
                 command.BookingDurationInMinutes,
                 command.BookingReason);
                 
-            await _context.SaveChangesAsync();
-
             Log.Information("{@user} booked resource {@resource}", command.BookedBy.Login, resource.Name);
 
             return Unit.Value;
