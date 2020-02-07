@@ -21,6 +21,8 @@ namespace ResourcesBooking.Host.Commands
 
         [Required]
         public string Name { get; set; }
+
+        public string Description { get; set; }
         
         public Guid? GroupId { get; set; }
     }
