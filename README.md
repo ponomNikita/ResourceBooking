@@ -65,3 +65,6 @@ You can add additional parameters to environment variables in docker-compose.yml
 4. `notifications__notifyBeforeEndingOfReservationInMinutes` default 10
 5. `notifications__mattermost__hook` is used for notifications to mattermost
 
+
+## Demo 
+["resources-booking.herokuapp.com"](http://resources-booking.herokuapp.com)
