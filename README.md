@@ -67,4 +67,4 @@ You can add additional parameters to environment variables in docker-compose.yml
 
 
 ## Demo 
-["resources-booking.herokuapp.com"](http://resources-booking.herokuapp.com)
+[resources-booking.herokuapp.com](http://resources-booking.herokuapp.com)
