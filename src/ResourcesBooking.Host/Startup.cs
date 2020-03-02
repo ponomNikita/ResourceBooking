@@ -126,7 +126,7 @@ namespace ResourcesBooking.Host
             {
                 _container.Register<INotificationService, MattermostNotificationService>(Lifestyle.Scoped);
             }
-            else if (CurrentEnvironment.IsDevelopment())
+            else
             {
                 _container.Register<INotificationService, DevelopmentNotificationService>(Lifestyle.Scoped);
             }
