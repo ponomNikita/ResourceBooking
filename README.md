@@ -51,10 +51,12 @@ Features:
 4. Create folder for certificates `https` inside target
 5. Inside `https`:
   a. Bash: `openssl req -new -x509 -newkey rsa:2048 -keyout <hostname>.key -out <hostname>.cer -days 365 -subj /CN=<hostname>`
-  b. Bash: `penssl pkcs12 -export -out certificate.pfx -inkey <hostname>.key -in <hostname>.cer`
-6. Set actual `gitlab` parameters in `docker-compose.yml`
-7. Set actual `notifications` parameters in `docker-compose.yml` (or remove mattermost section)
-8. Bash: `docker-compose up -d`
+  b. Bash: `openssl pkcs12 -export -out certificate.pfx -inkey <hostname>.key -in <hostname>.cer`
+6. Add application in SSO (gitlab, github, etc). Set callback url for application: `https://<hostname>:443/login-collback`.
+7. Specify `gitlab__clientId` and `gitlab__clientSecret` in `docker-compose.yml` from your SSO application
+8. Set actual other `gitlab` parameters in `docker-compose.yml`
+9. Set actual `notifications` parameters in `docker-compose.yml` (or remove mattermost section)
+10. Bash: `docker-compose up -d`
 
 ### Additional parameters
 
