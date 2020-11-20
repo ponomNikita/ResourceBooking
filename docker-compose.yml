@@ -33,3 +33,9 @@ services:
     ports:
       - 5432:5432
     restart: unless-stopped
+  
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: resources-booking.host --interval 360
