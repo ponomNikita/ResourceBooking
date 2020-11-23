@@ -1,6 +1,7 @@
 name: .NET Core
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -12,6 +13,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+
+    - name: Build VERSION
+      run: echo .${{ github.run_number }} >> src/ResourcesBooking.Host/VERSION
+      
+    - name: cat VERSION
+      run: cat src/ResourcesBooking.Host/VERSION
     
     - name: Login to Docker Hub
       run: docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}

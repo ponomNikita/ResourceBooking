@@ -17,6 +17,10 @@
     <PackageReference Include="SimpleInjector.Integration.AspNetCore.Mvc" Version="4.8.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="VERSION" />
+  </ItemGroup>
+
   <ItemGroup> 
     <Content Include="wwwroot\node_modules\**"> 
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory> 
