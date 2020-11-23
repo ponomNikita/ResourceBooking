@@ -1,6 +1,11 @@
 name: .NET Core
 
 on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'image tag'
+        required: true
   push:
     branches:
       - master
