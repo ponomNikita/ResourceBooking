@@ -6,6 +6,7 @@ on:
       tag:
         description: 'image tag'
         required: true
+        default: latest
   push:
     branches:
       - master
