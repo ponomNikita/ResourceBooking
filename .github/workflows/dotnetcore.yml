@@ -12,11 +12,11 @@ on:
 
 jobs:
   build:
-    
-    env:
-      TAG: github.event.inputs.tag
 
     runs-on: ubuntu-latest
+
+    env:
+      TAG: github.event.inputs.tag
 
     steps:
     - uses: actions/checkout@v1
@@ -34,9 +34,9 @@ jobs:
     - name: Login to Docker Hub
       run: docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
     - name: Build docker image
-      run: cd src/ResourcesBooking.Host && docker build . -t ponomnikita/resource-booking:${{TAG}} -f Dockerfile.dockerhub      
+      run: cd src/ResourcesBooking.Host && docker build . -t ponomnikita/resource-booking:$TAG -f Dockerfile.dockerhub      
     - name: Push docker image
-      run: docker push ponomnikita/resource-booking:${{TAG}}
+      run: docker push ponomnikita/resource-booking:$TAG
       
     - name: Login to Heroku Container registry
       env: 
