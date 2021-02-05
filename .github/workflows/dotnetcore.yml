@@ -15,9 +15,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    env:
-      TAG: github.event.inputs.tag
-
     steps:
     - uses: actions/checkout@v1
 
@@ -27,9 +24,13 @@ jobs:
     - name: cat VERSION
       run: cat src/ResourcesBooking.Host/VERSION
       
-    - name: Setting default tag if necessary
+    - name: Setting default tag if empty
       if: github.event.inputs.tag == ''
       run: $TAG=latest
+
+    - name: Setting tag if input tag not empty
+      if: github.event.inputs.tag != ''
+      run: $TAG=github.event.inputs.tag
     
     - name: Login to Docker Hub
       run: docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
