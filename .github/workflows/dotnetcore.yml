@@ -28,7 +28,7 @@ jobs:
       run: cat src/ResourcesBooking.Host/VERSION
       
     - name: Setting default tag if necessary
-      if: TAG == ''
+      if: $TAG == ''
       run: $TAG=latest
     
     - name: Login to Docker Hub
