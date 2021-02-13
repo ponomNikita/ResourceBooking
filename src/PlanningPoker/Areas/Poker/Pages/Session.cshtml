@@ -1,0 +1,61 @@
+@page "{id:Guid}"
+@model SessionModel
+
+@{
+    var subjects = Model.Session.Subjects;
+}
+
+
+<div class="container-fluid">
+    
+    <h4 class="mb-10">@Model.Session.Name</h4>
+    
+    <div class="row">
+        <div class="col-7">
+
+            <form id="voting" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Subject">
+                    <div class="input-group-append">
+                        <button type="submit" form="voting" class="btn btn-primary">
+                            Start voting
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+        <div class="col-5">
+
+            <div class="card card-default">
+                <div class="card-body">
+                    <h4 class="card-title">History</h4>
+
+                    <div class="history">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col-3">#</th>
+                                <th scope="col-3">Subject</th>
+                            </tr>
+                            </thead>
+                            <tbody id="history">
+                            @for (var i = 1; i <= subjects.Count; i++)
+                            {
+                                <tr>
+                                    <td>@i</td>
+                                    <td>@subjects[i].Name</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

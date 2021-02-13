@@ -66,3 +66,14 @@ body {
   width: 20px;
   height: 20px;
 }
+
+.history {
+  height: 60vh;
+  overflow-y: auto;
+}
+
+.history thead th {
+  position: sticky;
+  top: 0;
+  background: #fff;
+}

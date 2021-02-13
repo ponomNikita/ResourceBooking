@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+using System.Reflection;
 using MediatR;
 using MediatR.Pipeline;
 using Microsoft.AspNetCore.Builder;
@@ -147,7 +150,8 @@ namespace ResourcesBooking.Host
 
         private void AddMediatR()
         {
-            var assemblies = new [] { this.GetType().Assembly };
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            
             _container.RegisterSingleton<IMediator, Mediator>();
             
             _container.Register(typeof(IRequestHandler<,>), assemblies);

@@ -1,4 +1,25 @@
 ﻿@page
-@model PlanningPokers.IndexModel
+@model PlanningPoker.IndexModel
+@{
+    ViewData["Title"] = "Poker";
+}
 
-<h1>Poker</h1>
+<div class="container">
+    
+    <h4>Start new poker session</h4>
+
+    <form id="newSession" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        
+        <div class="input-group">
+            <input  asp-for="Command.Name" type="text" class="form-control" placeholder="Name">
+            <span asp-validation-for="Command.Name" class="text-danger"></span>
+            <div class="input-group-append">
+                <button type="submit" form="newSession" class="btn btn-primary">
+                    <i class="fas fa-check"></i>
+                    Start
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
