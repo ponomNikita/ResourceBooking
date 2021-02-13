@@ -8,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ResourcesBooking.Host.BackgroundTasks;
-using ResourcesBooking.Host.Commands;
 using ResourcesBooking.Host.Options;
 using ResourcesBooking.Host.Services;
 using ResourcesBooking.Host.Commands.Postprocessors;
@@ -19,7 +18,7 @@ namespace ResourcesBooking.Host
 {
     public class Startup
     {
-        private Container _container = new Container();
+        private readonly Container _container = new Container();
 
         public Startup(IWebHostEnvironment environment, IConfiguration configuration)
         {
