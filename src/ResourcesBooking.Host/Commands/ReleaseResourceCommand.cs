@@ -1,6 +1,6 @@
 using System;
+using CommonLibs;
 using MediatR;
-using ResourcesBooking.Host.Models;
 
 namespace ResourcesBooking.Host.Commands
 {

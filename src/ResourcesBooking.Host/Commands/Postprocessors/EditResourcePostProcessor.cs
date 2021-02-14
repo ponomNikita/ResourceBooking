@@ -10,10 +10,10 @@ namespace ResourcesBooking.Host.Commands.Postprocessors
 {
     public class EditResourcePostProcessor : IRequestPostProcessor<EditResourceCommand, Unit>
     {
-        private readonly ResourcesContext _context;
+        private readonly DatabaseContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public EditResourcePostProcessor(ResourcesContext context, IHttpContextAccessor httpContextAccessor)
+        public EditResourcePostProcessor(DatabaseContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;

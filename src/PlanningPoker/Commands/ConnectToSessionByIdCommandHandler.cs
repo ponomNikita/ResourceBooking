@@ -12,7 +12,7 @@ namespace PlanningPoker.Commands
         {
             if (ActiveSessions.Sessions.TryGetValue(command.SessionId, out var session))
             {
-                session.Participants.Add(command.User);
+                session.AddParticipant(command.User);
                 return session;
             }
             

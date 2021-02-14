@@ -8,9 +8,9 @@ namespace ResourcesBooking.Host.Commands
 {
     public class ExtendResourceCommandHandler : IRequestHandler<ExtendResourceCommand, ExtendResourceResult>
     {
-        private readonly ResourcesContext _context;
+        private readonly DatabaseContext _context;
 
-        public ExtendResourceCommandHandler(ResourcesContext context)
+        public ExtendResourceCommandHandler(DatabaseContext context)
         {
             _context = context;
         }

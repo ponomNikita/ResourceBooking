@@ -9,9 +9,9 @@ namespace ResourcesBooking.Host.Commands.Postprocessors
 {
     public class BookResourcePostProcessor : IRequestPostProcessor<BookResourceCommand, BookResourceResult>
     {
-        private readonly ResourcesContext _context;
+        private readonly DatabaseContext _context;
 
-        public BookResourcePostProcessor(ResourcesContext context)
+        public BookResourcePostProcessor(DatabaseContext context)
         {
             _context = context;
         }

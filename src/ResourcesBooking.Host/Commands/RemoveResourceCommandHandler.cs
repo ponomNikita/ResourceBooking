@@ -9,9 +9,9 @@ namespace ResourcesBooking.Host.Commands
 {
     public class RemoveResourceCommandHandler : IRequestHandler<RemoveResourceCommand, Unit>
     {
-        private readonly ResourcesContext _context;
+        private readonly DatabaseContext _context;
 
-        public RemoveResourceCommandHandler(ResourcesContext context)
+        public RemoveResourceCommandHandler(DatabaseContext context)
         {
             _context = context;
         }

@@ -8,9 +8,9 @@ namespace ResourcesBooking.Host.Commands
 {
     public class EditResourceCommandHandler : IRequestHandler<EditResourceCommand>
     {
-        private readonly ResourcesContext _context;
+        private readonly DatabaseContext _context;
 
-        public EditResourceCommandHandler(ResourcesContext context)
+        public EditResourceCommandHandler(DatabaseContext context)
         {
             _context = context;
         }

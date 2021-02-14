@@ -1,5 +1,5 @@
 using System;
-using ResourcesBooking.Host.Models;
+using CommonLibs;
 
 namespace ResourcesBooking.Host.Commands
 {

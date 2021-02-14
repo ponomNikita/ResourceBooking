@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CommonLibs;
 using MediatR.Pipeline;
 using ResourcesBooking.Host.Models;
 
@@ -8,9 +9,9 @@ namespace ResourcesBooking.Host.Commands.Postprocessors
 {
     public class ReleaseResourcePostProcessor : IRequestPostProcessor<ReleaseResourceCommand, ReleaseResourceResult>
     {
-        private readonly ResourcesContext _context;
+        private readonly DatabaseContext _context;
 
-        public ReleaseResourcePostProcessor(ResourcesContext context)
+        public ReleaseResourcePostProcessor(DatabaseContext context)
         {
             _context = context;
         }

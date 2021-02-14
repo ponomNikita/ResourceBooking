@@ -49,11 +49,12 @@ namespace ResourcesBooking.Host
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddRazorPages();
+            services.AddRazorPages()
+                .AddRazorRuntimeCompilation();
 
             services.AddAuthorization(Configuration);
 
-            services.AddDbContext<ResourcesContext>(options =>
+            services.AddDbContext<DatabaseContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("Resources")), ServiceLifetime.Scoped);
 
             services.AddSimpleInjector(_container, options =>
@@ -133,7 +134,7 @@ namespace ResourcesBooking.Host
                 _container.Register<INotificationService, DevelopmentNotificationService>(Lifestyle.Scoped);
             }
 
-            _container.Register<ResourcesContext>(Lifestyle.Scoped);
+            _container.Register<DatabaseContext>(Lifestyle.Scoped);
             _container.Register<IHttpContextAccessor, HttpContextAccessor>(Lifestyle.Scoped);
 
             _container.Collection.Register(typeof(IBackgroundTask), new []

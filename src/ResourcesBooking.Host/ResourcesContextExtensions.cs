@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using CommonLibs;
 using Microsoft.EntityFrameworkCore;
 using ResourcesBooking.Host.Models;
 
@@ -23,7 +24,7 @@ namespace ResourcesBooking.Host
                     .ThenInclude(it => it.BookedBy);
         }
 
-        public static async Task<User> GetOrAdd(this ResourcesContext context, ClaimsPrincipal currentUser) 
+        public static async Task<User> GetOrAdd(this DatabaseContext context, ClaimsPrincipal currentUser) 
         {            
             var user = await context.Users.FindAsync(currentUser.Identity.Name);
             var avatar = currentUser.GetAvatarUrl();
@@ -46,7 +47,7 @@ namespace ResourcesBooking.Host
             return user;
         }
 
-        public static async Task AddOrUpdateSetting(this ResourcesContext context, string key, string value)
+        public static async Task AddOrUpdateSetting(this DatabaseContext context, string key, string value)
         {
             var settingValue = await context.Settings.FirstOrDefaultAsync(it => it.Key == key);
 
@@ -64,7 +65,7 @@ namespace ResourcesBooking.Host
             }
         }
 
-        public static async Task<string> GetSetting(this ResourcesContext context, string key)
+        public static async Task<string> GetSetting(this DatabaseContext context, string key)
         {
             var setting = await context.Settings.FirstOrDefaultAsync(it => it.Key == key);
             return setting?.Value;

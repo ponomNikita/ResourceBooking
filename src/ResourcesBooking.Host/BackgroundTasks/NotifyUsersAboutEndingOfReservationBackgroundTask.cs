@@ -12,11 +12,11 @@ namespace ResourcesBooking.Host.BackgroundTasks
     public class NotifyUsersAboutEndingOfReservationBackgroundTask : IBackgroundTask
     {
         private const int PartOfBackgroundTaskInterval = 55;
-        private readonly ResourcesContext _context;
+        private readonly DatabaseContext _context;
         private readonly INotificationService _notificator;
         private readonly NotificationOptions _options;
 
-        public NotifyUsersAboutEndingOfReservationBackgroundTask(ResourcesContext context, 
+        public NotifyUsersAboutEndingOfReservationBackgroundTask(DatabaseContext context, 
             INotificationService notificator, 
             NotificationOptions options)
         {

@@ -1,7 +1,6 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ResourcesBooking.Host.Models
+namespace CommonLibs
 {
     public class User 
     {

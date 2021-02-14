@@ -7,9 +7,9 @@ namespace ResourcesBooking.Host.Pages.Resources
 {
     public class IndexModel : PageModel
     {
-        private ResourcesContext _context;
+        private DatabaseContext _context;
 
-        public IndexModel(ResourcesContext context) => _context = context;
+        public IndexModel(DatabaseContext context) => _context = context;
 
         public void OnGet()
         {

@@ -2,6 +2,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CommonLibs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,7 +31,7 @@ namespace ResourcesBooking.Host
 
             using(AsyncScopedLifestyle.BeginScope(_container))
             {
-                var context = _container.GetService<ResourcesContext>();
+                var context = _container.GetService<DatabaseContext>();
             
                 await context.Database.MigrateAsync(stoppingToken);
 
@@ -48,14 +49,14 @@ namespace ResourcesBooking.Host
             Log.Information("Finished migrating database");
         }
 
-        private async Task AddSystemUser(ResourcesContext context, CancellationToken token)
+        private async Task AddSystemUser(DatabaseContext context, CancellationToken token)
         {
             await context.Users.AddAsync(User.GetSystemUser(), token);
             await context.AddOrUpdateSetting(SystemUserSettingKey, "true");
             await context.SaveChangesAsync(token);
         }
 
-        private async Task Seed(ResourcesContext context, CancellationToken token)
+        private async Task Seed(DatabaseContext context, CancellationToken token)
         {
             var resourcesPath  = Path.GetFullPath("data/resources.json");
             if (File.Exists(resourcesPath))

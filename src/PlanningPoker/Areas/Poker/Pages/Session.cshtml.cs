@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using CommonLibs;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -21,7 +22,13 @@ namespace PlanningPoker
 
         public async Task<IActionResult> OnGetAsync(Guid id)
         {
-            var session = await _mediator.Send(new ConnectToSessionByIdCommand(id, User.Identity.Name));
+            var user = new User
+            {
+                Login = "nponomarev",
+                AvatarUrl = "https://assets.gitlab-static.net/uploads/-/system/user/avatar/1143997/avatar.png"
+            };
+            
+            var session = await _mediator.Send(new ConnectToSessionByIdCommand(id, user));
 
             Session = session;
 

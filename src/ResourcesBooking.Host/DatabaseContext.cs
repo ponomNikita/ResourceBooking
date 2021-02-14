@@ -1,19 +1,21 @@
+using CommonLibs;
 using Microsoft.EntityFrameworkCore;
 using ResourcesBooking.Host.Models;
 
 namespace ResourcesBooking.Host
 {
-    public class ResourcesContext : DbContext
+    public class DatabaseContext : DbContext
     {
-        public ResourcesContext (DbContextOptions options) 
+        public DatabaseContext (DbContextOptions options) 
             : base(options)
         {
             
         }
-        public DbSet<Resource> Resources { get; set; }
-        public DbSet<ResourcesGroup> Groups { get; set; }
+        
         public DbSet<User> Users { get; set; }
         public DbSet<KeyValue> Settings { get; set; }
+        public DbSet<Resource> Resources { get; set; }
+        public DbSet<ResourcesGroup> Groups { get; set; }
         public DbSet<HistoryEntry> History { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

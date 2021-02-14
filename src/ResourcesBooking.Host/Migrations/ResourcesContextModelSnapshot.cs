@@ -8,7 +8,7 @@ using ResourcesBooking.Host;
 
 namespace ResourcesBooking.Host.Migrations
 {
-    [DbContext(typeof(ResourcesContext))]
+    [DbContext(typeof(DatabaseContext))]
     partial class ResourcesContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

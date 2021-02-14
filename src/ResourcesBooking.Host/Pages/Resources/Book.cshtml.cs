@@ -12,11 +12,11 @@ namespace ResourcesBooking.Host.Pages.Resources
 {
     public class BookModel : PageModel
     {
-        private readonly ResourcesContext _context;
+        private readonly DatabaseContext _context;
         private readonly IMediator _mediator;
         private readonly BookingOptions _bookingOptions;
 
-        public BookModel(ResourcesContext context, IMediator mediator, BookingOptions bookingOptions)
+        public BookModel(DatabaseContext context, IMediator mediator, BookingOptions bookingOptions)
         {
             _context = context;
             _mediator = mediator;

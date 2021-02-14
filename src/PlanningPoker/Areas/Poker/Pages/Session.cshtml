@@ -2,20 +2,35 @@
 @model SessionModel
 
 @{
+    ViewData["Title"] = "Poker";
     var subjects = Model.Session.Subjects;
 }
+
+<style>
+    .history {
+      height: 80vh;
+      overflow-y: auto;
+    }
+</style>
+
+<script>    
+    $(document).ready(function () {
+        $('.collapse').collapse();
+    });
+</script>
 
 
 <div class="container-fluid">
     
-    <h4 class="mb-10">@Model.Session.Name</h4>
     
     <div class="row">
         <div class="col-7">
+            
+            <h4 class="mb-5">@Model.Session.Name</h4>
 
-            <form id="voting" method="post">
+            <form id="voting" method="post" class="my-5">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                
+
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Subject">
                     <div class="input-group-append">
@@ -25,6 +40,27 @@
                     </div>
                 </div>
             </form>
+            
+            <ul class="list-group">
+                @foreach (var voter in @Model.Session.ActiveSubject.Voters)
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>
+                            <img src="@voter.User.AvatarUrl" class="avatar avatar-mini m-2" alt="avatar">
+                            &nbsp
+                            @voter.User.Login
+                        </span>
+                        @if (voter.Result != null)
+                        {
+                            <span class="badge badge-success badge-pill">@voter.Result</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-warning badge-pill">-</span>
+                        }
+                    </li>
+                }
+            </ul>
 
         </div>
 
@@ -33,26 +69,56 @@
             <div class="card card-default">
                 <div class="card-body">
                     <h4 class="card-title">History</h4>
+                    
+                    <div id="accordion" class="history">
+                        @foreach (var subject in Model.Session.Subjects.Where(s => !s.IsActive))
+                        {
+                            
+                            <div class="card">
+                                @{
+                                    var dataTarget = $"#collapse{subject.Id}";
+                                    var ariaControls = $"collapse{subject.Id}";
+                                    var heading = $"heading{subject.Id}";
+                                }
+                                <div class="card-header" id="@heading">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link" data-toggle="collapse" data-target="@dataTarget" aria-expanded="true" aria-controls="@ariaControls">
+                                            @subject.Name
+                                        </button>
+                                    </h5>
+                                </div>
 
-                    <div class="history">
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th scope="col-3">#</th>
-                                <th scope="col-3">Subject</th>
-                            </tr>
-                            </thead>
-                            <tbody id="history">
-                            @for (var i = 1; i <= subjects.Count; i++)
-                            {
-                                <tr>
-                                    <td>@i</td>
-                                    <td>@subjects[i].Name</td>
-                                </tr>
-                            }
-                            </tbody>
-                        </table>
+                                <div id="@ariaControls" class="collapse show" aria-labelledby="@heading" data-parent="#accordion">
+                                    <div class="card-body">
+                                        
+                                        <!-- TODO extract partial view -->
+
+                                        <ul class="list-group list-group-flush">
+                                            @foreach (var voter in @subject.Voters)
+                                            {
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <span>
+                                                        <img src="@voter.User.AvatarUrl" class="avatar avatar-mini m-2" alt="avatar">
+                                                        &nbsp
+                                                        @voter.User.Login
+                                                    </span>
+                                                    @if (voter.Result != null)
+                                                    {
+                                                        <span class="badge badge-success badge-pill">@voter.Result</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge badge-warning badge-pill">-</span>
+                                                    }
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
+                    
                 </div>
             </div>
 

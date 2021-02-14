@@ -9,10 +9,10 @@ namespace ResourcesBooking.Host.Pages.Resources
 {
     public class AddModel : PageModel
     {
-        private readonly ResourcesContext _context;
+        private readonly DatabaseContext _context;
         private readonly IMediator _mediator;
 
-        public AddModel(ResourcesContext context, IMediator mediator)
+        public AddModel(DatabaseContext context, IMediator mediator)
         {
             _context = context;
             _mediator = mediator;

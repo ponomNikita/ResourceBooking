@@ -8,9 +8,9 @@ namespace ResourcesBooking.Host.Commands
 {
     public class BookResourceCommandHandler : IRequestHandler<BookResourceCommand, BookResourceResult>
     {
-        private readonly ResourcesContext _context;
+        private readonly DatabaseContext _context;
 
-        public BookResourceCommandHandler(ResourcesContext context)
+        public BookResourceCommandHandler(DatabaseContext context)
         {
             _context = context;
         }

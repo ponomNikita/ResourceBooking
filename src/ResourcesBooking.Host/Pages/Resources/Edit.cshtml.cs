@@ -11,10 +11,10 @@ namespace ResourcesBooking.Host.Pages.Resources
 {
     public class EditModel : PageModel
     {
-        private readonly ResourcesContext _context;
+        private readonly DatabaseContext _context;
         private readonly IMediator _mediator;
 
-        public EditModel(ResourcesContext context, IMediator mediator)
+        public EditModel(DatabaseContext context, IMediator mediator)
         {
             _context = context;
             _mediator = mediator;

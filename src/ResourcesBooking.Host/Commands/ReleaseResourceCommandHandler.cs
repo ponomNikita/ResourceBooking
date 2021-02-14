@@ -8,9 +8,9 @@ namespace ResourcesBooking.Host.Commands
 {
     public class ReleaseResourceCommandHandler : IRequestHandler<ReleaseResourceCommand, ReleaseResourceResult>
     {
-        private readonly ResourcesContext _context;
+        private readonly DatabaseContext _context;
 
-        public ReleaseResourceCommandHandler(ResourcesContext context)
+        public ReleaseResourceCommandHandler(DatabaseContext context)
         {
             _context = context;
         }

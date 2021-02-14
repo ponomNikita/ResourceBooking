@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using CommonLibs;
 
 namespace ResourcesBooking.Host.Models
 {

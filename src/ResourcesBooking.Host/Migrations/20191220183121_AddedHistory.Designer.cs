@@ -9,7 +9,7 @@ using ResourcesBooking.Host;
 
 namespace ResourcesBooking.Host.Migrations
 {
-    [DbContext(typeof(ResourcesContext))]
+    [DbContext(typeof(DatabaseContext))]
     [Migration("20191220183121_AddedHistory")]
     partial class AddedHistory
     {

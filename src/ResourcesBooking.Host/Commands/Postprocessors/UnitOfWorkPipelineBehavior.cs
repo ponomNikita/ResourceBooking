@@ -6,9 +6,9 @@ namespace ResourcesBooking.Host.Commands.Postprocessors
 {
     public class UnitOfWorkPipelineBehavior<TRequest, TResponse> : IRequestPostProcessor<TRequest, TResponse>
     {
-        private readonly ResourcesContext _context;
+        private readonly DatabaseContext _context;
 
-        public UnitOfWorkPipelineBehavior(ResourcesContext context)
+        public UnitOfWorkPipelineBehavior(DatabaseContext context)
         {
             _context = context;
         }

@@ -12,9 +12,9 @@ namespace ResourcesBooking.Host.BackgroundTasks
     public class ReleaseExpiredReservationsBackgroundTask : IBackgroundTask
     {
         private readonly IMediator _mediator;
-        private readonly ResourcesContext _context;
+        private readonly DatabaseContext _context;
 
-        public ReleaseExpiredReservationsBackgroundTask(IMediator mediator, ResourcesContext context)
+        public ReleaseExpiredReservationsBackgroundTask(IMediator mediator, DatabaseContext context)
         {
             _mediator = mediator;
             _context = context;
