@@ -50,12 +50,14 @@
                         @foreach (var card in Model.Session.CardsSet.Cards)
                         {
                             <label id="vote-radio" class="btn btn-info">
-                                <input type="radio" name="Vote" autocomplete="off" value="@card"> @card
+                                <input type="radio" name="Vote" autocomplete="off" value="@card" 
+                                       disabled="@(Model.HasAlreadyVoted() ? "disabled" : null)"> @card
                             </label>
                         }
                     </div>
                 
-                    <button asp-page-handler="Vote" type="submit" form="voting" class="btn btn-success">
+                    <button asp-page-handler="Vote" type="submit" form="voting" class="btn btn-success" 
+                            disabled="@(Model.HasAlreadyVoted() ? "disabled" : null)">
                         <i class="fas fa-check"></i>
                         Vote
                     </button>

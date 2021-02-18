@@ -83,5 +83,10 @@ namespace PlanningPoker
             SessionId = sessionId;
             SubjectName = Session.ActiveSubject.Name;
         }
+
+        public bool HasAlreadyVoted()
+        {
+            return Session.ActiveSubject.HasAlreadyVoted(_currentUser);
+        }
     }
 }

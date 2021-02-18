@@ -40,6 +40,18 @@ namespace PlanningPoker.Models
 
             voter.Result = result;
         }
+
+        public bool HasAlreadyVoted(User user)
+        {
+            var voter = Voters.FirstOrDefault(v => v.User.Equals(user));
+
+            if (voter == null)
+            {
+                throw new Exception($"No such voter {user.Login} for subject {Name}");
+            }
+
+            return voter.Result != null;
+        }
     }
 
     public class Voter
