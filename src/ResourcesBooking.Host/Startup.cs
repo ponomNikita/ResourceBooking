@@ -50,6 +50,7 @@ namespace ResourcesBooking.Host
             });
 
             services.AddRazorPages()
+                // TODO Analyze why not working for RCL
                 .AddRazorRuntimeCompilation();
 
             services.AddAuthorization(Configuration);

@@ -3,7 +3,6 @@
 
 @{
     ViewData["Title"] = "Poker";
-    var subjects = Model.Session.Subjects;
 }
 
 <style>
@@ -27,17 +26,39 @@
         <div class="col-7">
             
             <h4 class="mb-5">@Model.Session.Name</h4>
-
-            <form id="voting" method="post" class="my-5">
+            
+            <form id="subjects" method="post" class="my-5">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Subject">
+                    @Html.HiddenFor(it => it.SessionId)
+                    <input asp-for="SubjectName" type="text" class="form-control" placeholder="Subject">
                     <div class="input-group-append">
-                        <button type="submit" form="voting" class="btn btn-primary">
+                        <button asp-page-handler="Subject" type="submit" form="subjects" class="btn btn-primary">
                             Start voting
                         </button>
                     </div>
+                </div>
+                <span asp-validation-for="SubjectName" class="text-danger"></span>
+            </form>
+            
+            <form id="voting" method="post" class="my-5">
+                @Html.HiddenFor(it => it.SessionId)
+                
+                <div class="d-flex mb-2" >
+                    <div class="btn-group btn-group-toggle flex-fill mr-1" data-toggle="buttons">
+                        @foreach (var card in Model.Session.CardsSet.Cards)
+                        {
+                            <label id="vote-radio" class="btn btn-info">
+                                <input type="radio" name="Vote" autocomplete="off" value="@card"> @card
+                            </label>
+                        }
+                    </div>
+                
+                    <button asp-page-handler="Vote" type="submit" form="voting" class="btn btn-success">
+                        <i class="fas fa-check"></i>
+                        Vote
+                    </button>
                 </div>
             </form>
             
